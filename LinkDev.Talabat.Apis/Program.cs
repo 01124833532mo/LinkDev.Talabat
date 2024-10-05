@@ -1,4 +1,8 @@
 
+using LinkDev.Talabat.Infrastructure.Persistence;
+using LinkDev.Talabat.Infrastructure.Persistence.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace LinkDev.Talabat.Apis
 {
     public class Program
@@ -15,8 +19,10 @@ namespace LinkDev.Talabat.Apis
             WebApplicationBuilder.Services.AddEndpointsApiExplorer();
             WebApplicationBuilder.Services.AddSwaggerGen();
 
+            WebApplicationBuilder.Services.AddPersistenceServices(WebApplicationBuilder.Configuration);
+
             #endregion
-            var app = WebApplicationBuilder.Build();
+                  var app = WebApplicationBuilder.Build();
 
             #region Configure Kestrel Middlewares
             // Configure the HTTP request pipeline.
