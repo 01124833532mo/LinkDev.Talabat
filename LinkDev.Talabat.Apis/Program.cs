@@ -24,7 +24,8 @@ namespace LinkDev.Talabat.Apis
             #endregion
                   var app = WebApplicationBuilder.Build();
 
-            #region Update database
+            #region Update database and Data seeding
+
             using var scope = app.Services.CreateAsyncScope();
             var services = scope.ServiceProvider;
             var dbContext = services.GetRequiredService<StoreContext>();
@@ -39,11 +40,13 @@ namespace LinkDev.Talabat.Apis
                 var pendingMigrations = dbContext.Database.GetPendingMigrations();
                 if (pendingMigrations.Any())
                     await dbContext.Database.MigrateAsync();
+
+                await StoreContextSeed.SeedAsync(dbContext);
             }
             catch (Exception ex)
             {
                 var logger = loggerFactory.CreateLogger<Program>();
-                logger.LogError(ex, "an error has been oucerd during applying the migrations ");
+                logger.LogError(ex, "an error has been oucerd during applying the migrations or data seeding ");
             }
 
             #endregion
