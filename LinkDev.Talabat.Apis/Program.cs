@@ -1,9 +1,15 @@
 
+using LinkDev.Talabat.Apis.Extensions;
+using LinkDev.Talabat.Core.Domain.Contracts;
+using LinkDev.Talabat.Infrastructure.Persistence;
+using LinkDev.Talabat.Infrastructure.Persistence.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace LinkDev.Talabat.Apis
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             #region Configure Services
             var WebApplicationBuilder = WebApplication.CreateBuilder(args);
@@ -15,8 +21,19 @@ namespace LinkDev.Talabat.Apis
             WebApplicationBuilder.Services.AddEndpointsApiExplorer();
             WebApplicationBuilder.Services.AddSwaggerGen();
 
+            WebApplicationBuilder.Services.AddPersistenceServices(WebApplicationBuilder.Configuration);
+
             #endregion
-            var app = WebApplicationBuilder.Build();
+                  var app = WebApplicationBuilder.Build();
+
+            #region Databases initilization
+
+       await app.InitializeStoreContextAsync();
+
+            #endregion
+
+
+
 
             #region Configure Kestrel Middlewares
             // Configure the HTTP request pipeline.
