@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace LinkDev.Talabat.Infrastructure.Persistence.Repositories
 {
     internal class GenericRepository<TEntity, Tkey>
-        : IGenericRepository<TEntity, Tkey> where TEntity : BaseAuditableEntity<Tkey> where Tkey : IEquatable<Tkey>
+        : IGenericRepository<TEntity, Tkey> where TEntity : BaseEntity<Tkey> where Tkey : IEquatable<Tkey>
     {
         private readonly StoreContext _dbContext; 
 
