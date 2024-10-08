@@ -1,6 +1,8 @@
 ﻿using LinkDev.Talabat.Core.Application.Abstraction.Services;
+using LinkDev.Talabat.Core.Application.Abstraction.Services.Products;
 using LinkDev.Talabat.Core.Application.Mapping;
 using LinkDev.Talabat.Core.Application.Services;
+using LinkDev.Talabat.Core.Application.Services.Products;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -17,7 +19,8 @@ namespace LinkDev.Talabat.Core.Application
             services.AddAutoMapper(mapper => mapper.AddProfile(new MappingProfile()));
 
             services.AddAutoMapper(typeof(MappingProfile));
-            services.AddScoped(typeof(IProductService), typeof(ProductService));    
+            //services.AddScoped(typeof(IProductService), typeof(ProductService));
+            services.AddScoped(typeof(IServiceManager), typeof(ServiceManager));
 
             //services.AddAutoMapper(mapper => mapper.AddProfile<MappingProfile>());
 
