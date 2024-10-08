@@ -30,7 +30,7 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.UnitOfWork
 
 
         public IGenericRepository<TEntity, TKey> GetRepository<TEntity, TKey>()
-           where TEntity : BaseEntity<TKey>
+           where TEntity : BaseAuditableEntity<TKey>
            where TKey : IEquatable<TKey>
         {
             //var typeName= typeof(TEntity).Name;
@@ -46,7 +46,8 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.UnitOfWork
 
             // return repository;
 
-        return  (IGenericRepository<TEntity, TKey>)  _repositories.GetOrAdd(typeof(TEntity).Name, new GenericRepository<TEntity, TKey>(_dbcontext));
+        return  (IGenericRepository<TEntity, TKey>)  _repositories
+                .GetOrAdd(typeof(TEntity).Name, new GenericRepository<TEntity, TKey>(_dbcontext));
         }
 
 
