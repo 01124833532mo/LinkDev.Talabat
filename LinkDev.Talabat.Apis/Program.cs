@@ -2,11 +2,9 @@
 using LinkDev.Talabat.Apis.Extensions;
 using LinkDev.Talabat.Apis.Services;
 using LinkDev.Talabat.Core.Application.Abstraction;
-using LinkDev.Talabat.Core.Domain.Contracts;
 using LinkDev.Talabat.Infrastructure.Persistence;
-using LinkDev.Talabat.Infrastructure.Persistence.Data;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using LinkDev.Talabat.Core.Application;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace LinkDev.Talabat.Apis
 {
@@ -17,6 +15,7 @@ namespace LinkDev.Talabat.Apis
             #region Configure Services
             var WebApplicationBuilder = WebApplication.CreateBuilder(args);
 
+            
             // Add services to the container.
 
             WebApplicationBuilder.Services.AddControllers().AddApplicationPart(typeof(Controllers.AssemblyInformation).Assembly);
@@ -28,7 +27,9 @@ namespace LinkDev.Talabat.Apis
             WebApplicationBuilder.Services.AddScoped(typeof(ILoggedInUserService), typeof(LoggedInUserService));
 
             WebApplicationBuilder.Services.AddPersistenceServices(WebApplicationBuilder.Configuration);
+            WebApplicationBuilder.Services.AddApplicationServices();
 
+            
             #endregion
                   var app = WebApplicationBuilder.Build();
 
