@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.WebRequestMethods;
 
 namespace LinkDev.Talabat.Core.Application.Mapping
 {
@@ -16,9 +17,10 @@ namespace LinkDev.Talabat.Core.Application.Mapping
         public MappingProfile()
         {
             CreateMap<Product, ProductToReturnDto>()
-               .ForMember(p=>p.Brand,o=>o.MapFrom(src=>src.Brand!.Name))
-               .ForMember(p => p.Category, o => o.MapFrom(src => src.Category!.Name));
-
+               .ForMember(p => p.Brand, o => o.MapFrom(src => src.Brand!.Name))
+               .ForMember(p => p.Category, o => o.MapFrom(src => src.Category!.Name))
+               //.ForMember(p => p.PictureUrl, o => o.MapFrom(src => $"{"https://localhost:7004"}{src.PictureUrl}"));
+               .ForMember(p => p.PictureUrl, o => o.MapFrom<ProductPictureUrlResolver>());
 
             CreateMap<ProductBrand, BrandDto>();
 

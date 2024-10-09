@@ -52,7 +52,7 @@ namespace LinkDev.Talabat.Apis
 
             app.UseHttpsRedirection();
 
-
+            app.UseStaticFiles(); ;
 
             app.MapControllers();
 
