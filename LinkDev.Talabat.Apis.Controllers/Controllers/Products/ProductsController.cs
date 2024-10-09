@@ -31,7 +31,26 @@ namespace LinkDev.Talabat.Apis.Controllers.Controllers.Products
                 return NotFound(new {StatusCode=404,message="Not Found." });
 
             return Ok(product);
-        } 
+        }
+
+
+        [HttpGet("brand")]
+         
+        public async Task <ActionResult<IEnumerable<BrandDto>>> GetBrands()
+        {
+            var brands = await serviceManager.ProductService.GetBrandsAsync();
+
+            return Ok(brands);
+        }
+
+        [HttpGet("categories")]
+
+        public async Task<ActionResult<IEnumerable<CategoryDto>>> GetCategories()
+        {
+            var categories = await serviceManager.ProductService.GetCategoriesAsync();
+
+            return Ok(categories);
+        }
 
     }
 }
