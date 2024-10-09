@@ -1,5 +1,6 @@
 ﻿using LinkDev.Talabat.Core.Domain.Common;
 using LinkDev.Talabat.Core.Domain.Contracts;
+using LinkDev.Talabat.Core.Domain.Entities.Products;
 using LinkDev.Talabat.Infrastructure.Persistence.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -21,8 +22,16 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Repositories
         }
 
         public async Task<IEnumerable<TEntity>> GetAllAsync(bool WithTraching = false)
+        {
+            if(typeof(TEntity) == typeof(Product))
+            {
+                return WithTraching ? (IEnumerable<TEntity>)await _dbContext.Set<Product>().Include(p => p.Brand).Include(p => p.Category).ToListAsync()
+                   : (IEnumerable<TEntity>)await _dbContext.Set<Product>().Include(p => p.Brand).Include(p => p.Category).AsNoTracking().ToListAsync();
+                    
+            }
+                    return WithTraching? await _dbContext.Set<TEntity>().ToListAsync() : await _dbContext.Set<TEntity>().AsNoTracking().ToListAsync();
 
-            => WithTraching ? await _dbContext.Set<TEntity>().ToListAsync() : await _dbContext.Set<TEntity>().AsNoTracking().ToListAsync();
+        }
         ///{
         ///    if (WithTraching) return await _dbContext.Set<TEntity>().ToListAsync();
         ///
