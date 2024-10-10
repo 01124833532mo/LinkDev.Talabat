@@ -1,8 +1,9 @@
 ﻿using LinkDev.Talabat.Core.Domain.Common;
-using LinkDev.Talabat.Core.Domain.Contracts;
+using LinkDev.Talabat.Core.Domain.Contracts.Persistence;
 using LinkDev.Talabat.Core.Domain.Entities.Products;
 using LinkDev.Talabat.Infrastructure.Persistence.Data;
 using LinkDev.Talabat.Infrastructure.Persistence.Repositories;
+using LinkDev.Talabat.Infrastructure.Persistence.Repositories.Generic_Repository;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -46,7 +47,8 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.UnitOfWork
 
             // return repository;
 
-        return  (IGenericRepository<TEntity, TKey>)  _repositories.GetOrAdd(typeof(TEntity).Name, new GenericRepository<TEntity, TKey>(_dbcontext));
+        return  (IGenericRepository<TEntity, TKey>)  _repositories
+                .GetOrAdd(typeof(TEntity).Name, new GenericRepository<TEntity, TKey>(_dbcontext));
         }
 
 
