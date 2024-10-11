@@ -1,5 +1,6 @@
 ﻿using LinkDev.Talabat.Core.Application.Abstraction;
 using LinkDev.Talabat.Core.Domain.Common;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using System;
 using System.Collections.Generic;
@@ -33,6 +34,7 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Data.Interceptors
 
 
 
+
         private void UpdateEntites(DbContext? dbContext)
         {
             if (dbContext is null)
@@ -50,6 +52,10 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Data.Interceptors
                 entry.Entity.LastModifiedBy = _loggedInUserService.UserId!;
                 entry.Entity.LastModifiedOn = DateTime.UtcNow;
             }
-        }
+        } 
+
+
+
+       
     }
 }
