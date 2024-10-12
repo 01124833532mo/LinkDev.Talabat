@@ -23,9 +23,9 @@ namespace LinkDev.Talabat.Core.Domain.Contracts.Specifications
             
         }
 
-        protected BaseSpecifications(Expression<Func<TEntity, bool>> expression)
+        protected BaseSpecifications(Expression<Func<TEntity, bool>> Criteriaexpression)
         {
-            Criteria = expression;
+            Criteria = Criteriaexpression;
             //Includes = new List<Expression<Func<TEntity, object>>> ();
         }
 
