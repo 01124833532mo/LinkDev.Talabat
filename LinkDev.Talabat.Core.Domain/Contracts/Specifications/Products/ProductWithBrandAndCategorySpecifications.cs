@@ -11,7 +11,7 @@ namespace LinkDev.Talabat.Core.Domain.Contracts.Specifications.Products
     public class ProductWithBrandAndCategorySpecifications : BaseSpecifications<Product, int>
     {
 
-        public ProductWithBrandAndCategorySpecifications(string? sort, int? brandId, int? categoryId)
+        public ProductWithBrandAndCategorySpecifications(string? sort, int? brandId, int? categoryId,int pageSize,int pageIndex)
             : base(
                   p => (!brandId.HasValue || p.BrandId == brandId.Value)
                             &&
@@ -41,7 +41,11 @@ namespace LinkDev.Talabat.Core.Domain.Contracts.Specifications.Products
                     break;
             }
 
+            // totalproducts 18 ~ 20
+            //page size = 5
+            //page index = 3
 
+            ApplyPagination((pageIndex-1)*pageSize ,pageSize);
 
 
         }

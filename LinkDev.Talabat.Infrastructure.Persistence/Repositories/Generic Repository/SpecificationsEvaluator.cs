@@ -27,6 +27,10 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Repositories.Generic_Reposi
             else if (spec.OrderBy is not null)
                query = query.OrderBy(spec.OrderBy);
 
+
+            if (spec.IsPaginationEnabled)
+                query = query.Skip(spec.Skip).Take(spec.Take); 
+
             // query = _dbcontext.set<product>().Where(p=> p.Id.Equals(id))
             // includeexprestion 
             // 1. p=>p.brand
