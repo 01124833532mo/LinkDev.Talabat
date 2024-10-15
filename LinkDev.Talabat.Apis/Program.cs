@@ -28,8 +28,11 @@ namespace LinkDev.Talabat.Apis
                 options.InvalidModelStateResponseFactory = (actionContext) =>
                 {
                     var errors = actionContext.ModelState.Where(p => p.Value!.Errors.Count() > 0)
-                                                         .SelectMany(p => p.Value!.Errors)
-                                                         .Select(e => e.ErrorMessage);
+                                                         .Select(p => new ApiValidationErrorResponse.ValidationError()
+                                                         {
+                                                             Field = p.Key,
+                                                             Errors = p.Value!.Errors.Select(e => e.ErrorMessage)
+                                                         });
                     return new BadRequestObjectResult(new ApiValidationErrorResponse()
                     {
                         Errors = errors
@@ -62,7 +65,7 @@ namespace LinkDev.Talabat.Apis
 
 
             #region Configure Kestrel Middlewares
-            app.UseMiddleware<CustomExeptionHandlerMiddleware>();
+            app.UseMiddleware<ExeptionHandlerMiddleware>();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

@@ -23,7 +23,7 @@ namespace LinkDev.Talabat.Apis.Controllers.Controllers.Common
                 var respnse = new ApiResponse((int)HttpStatusCode.NotFound, $"the requested endpoint : {Request.Path} is not found");
                 return NotFound(respnse);
             }
-            return StatusCode(Code);
+            return StatusCode(Code,new ApiResponse(Code));
         } 
 
     } 
