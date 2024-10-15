@@ -7,6 +7,7 @@ using LinkDev.Talabat.Core.Application;
 using static System.Net.Mime.MediaTypeNames;
 using Microsoft.AspNetCore.Mvc;
 using LinkDev.Talabat.Apis.Controllers.Errors;
+using LinkDev.Talabat.Apis.Middlewares;
 
 namespace LinkDev.Talabat.Apis
 {
@@ -61,6 +62,8 @@ namespace LinkDev.Talabat.Apis
 
 
             #region Configure Kestrel Middlewares
+            app.UseMiddleware<CustomExeptionHandlerMiddleware>();
+
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {

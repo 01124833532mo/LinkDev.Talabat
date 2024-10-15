@@ -1,5 +1,6 @@
 ﻿using LinkDev.Talabat.Apis.Controllers.Base;
 using LinkDev.Talabat.Apis.Controllers.Errors;
+using LinkDev.Talabat.Apis.Controllers.Exeptions;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,9 @@ namespace LinkDev.Talabat.Apis.Controllers.Controllers.Buggy
 
         public IActionResult GetNotFoundRequest()
         {
-            return NotFound(new ApiResponse(404)); // 404
+            throw new NotFoundExeption();
+
+            //return NotFound(new ApiResponse(404)); // 404
         }
 
         [HttpGet("servererror")]
