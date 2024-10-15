@@ -50,7 +50,12 @@ namespace LinkDev.Talabat.Apis
                 app.UseSwaggerUI();
             }
 
+            
             app.UseHttpsRedirection();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
 
             app.UseStaticFiles(); ;
 
