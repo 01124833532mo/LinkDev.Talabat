@@ -1,4 +1,5 @@
-﻿using LinkDev.Talabat.Apis.Controllers.Errors;
+﻿using Azure.Core;
+using LinkDev.Talabat.Apis.Controllers.Errors;
 using LinkDev.Talabat.Apis.Controllers.Exeptions;
 using Microsoft.AspNetCore.Http;
 using System.Net;
@@ -19,13 +20,18 @@ namespace LinkDev.Talabat.Apis.Middlewares
         }
 
 
-        public async Task InvokeAsync(HttpContext httpContent)
+        public async Task InvokeAsync(HttpContext httpContext)
         {
             try
             {
                 // logic excuted with the request
-                await _next(httpContent);
-                // logic excuted with the response
+                await _next(httpContext);
+                 //logic excuted with the response
+                //if (httpContext.Response.StatusCode == (int)HttpStatusCode.NotFound)
+                //{
+                //    var respnse = new ApiResponse((int)HttpStatusCode.NotFound, $"the requested endpoint : {httpContext.Request.Path} is not found");
+                //    await httpContext.Response.WriteAsync(respnse.ToString());
+                //}
             }
             catch (Exception ex)
             {
@@ -35,10 +41,10 @@ namespace LinkDev.Talabat.Apis.Middlewares
                     
                     case NotFoundExeption :
 
-                        httpContent.Response.StatusCode = (int)HttpStatusCode.NotFound;
-                        httpContent.Response.ContentType = "application/json";
+                        httpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
+                        httpContext.Response.ContentType = "application/json";
                         response = new ApiResponse(404, ex.Message);
-                        await httpContent.Response.WriteAsync(response.ToString());
+                        await httpContext.Response.WriteAsync(response.ToString());
 
                         break;
 
@@ -63,10 +69,10 @@ namespace LinkDev.Talabat.Apis.Middlewares
                             response = new ApiExeptionResponse((int)HttpStatusCode.InternalServerError);
                         }
 
-                        httpContent.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                        httpContent.Response.ContentType = "application/json";
+                        httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                        httpContext.Response.ContentType = "application/json";
 
-                        await httpContent.Response.WriteAsync(response.ToString());
+                        await httpContext.Response.WriteAsync(response.ToString());
                         break;
                 }
 
