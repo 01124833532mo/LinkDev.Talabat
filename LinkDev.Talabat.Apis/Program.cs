@@ -5,6 +5,8 @@ using LinkDev.Talabat.Core.Application.Abstraction;
 using LinkDev.Talabat.Infrastructure.Persistence;
 using LinkDev.Talabat.Core.Application;
 using static System.Net.Mime.MediaTypeNames;
+using Microsoft.AspNetCore.Mvc;
+using LinkDev.Talabat.Apis.Controllers.Errors;
 
 namespace LinkDev.Talabat.Apis
 {
@@ -15,10 +17,26 @@ namespace LinkDev.Talabat.Apis
             #region Configure Services
             var WebApplicationBuilder = WebApplication.CreateBuilder(args);
 
-            
+
             // Add services to the container.
 
-            WebApplicationBuilder.Services.AddControllers().AddApplicationPart(typeof(Controllers.AssemblyInformation).Assembly);
+            WebApplicationBuilder.Services.AddControllers().ConfigureApiBehaviorOptions(options => {
+                //options.SuppressModelStateInvalidFilter=true; // disapple for action
+
+                options.SuppressModelStateInvalidFilter = false; // enable filter
+                options.InvalidModelStateResponseFactory = (actionContext) =>
+                {
+                    var errors = actionContext.ModelState.Where(p => p.Value!.Errors.Count() > 0)
+                                                         .SelectMany(p => p.Value!.Errors)
+                                                         .Select(e => e.ErrorMessage);
+                    return new BadRequestObjectResult(new ApiValidationErrorResponse()
+                    {
+                        Errors = errors
+
+                    });
+                };
+
+            }).AddApplicationPart(typeof(Controllers.AssemblyInformation).Assembly);
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             WebApplicationBuilder.Services.AddEndpointsApiExplorer();
             WebApplicationBuilder.Services.AddSwaggerGen();

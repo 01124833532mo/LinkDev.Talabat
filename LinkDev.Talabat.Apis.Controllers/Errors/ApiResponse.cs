@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.Apis.Controllers.Errors
 {
-    internal class ApiResponse
+    public class ApiResponse
     {
         public int StatusCode { get; set; }
 

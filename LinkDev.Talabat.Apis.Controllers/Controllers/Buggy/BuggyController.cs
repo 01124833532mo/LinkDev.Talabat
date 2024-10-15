@@ -30,6 +30,7 @@ namespace LinkDev.Talabat.Apis.Controllers.Controllers.Buggy
             return BadRequest(new ApiResponse(400)); // 400
         }
 
+        // validation error 
         [HttpGet("badrequest/{id}")]   // validation error
         public IActionResult GetValidationError(int id)
         {
