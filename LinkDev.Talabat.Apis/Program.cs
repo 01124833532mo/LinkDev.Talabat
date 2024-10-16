@@ -8,7 +8,7 @@ using static System.Net.Mime.MediaTypeNames;
 using Microsoft.AspNetCore.Mvc;
 using LinkDev.Talabat.Apis.Controllers.Errors;
 using LinkDev.Talabat.Apis.Middlewares;
-
+using LinkDev.Talabat.Infrastructure;
 namespace LinkDev.Talabat.Apis
 {
     public class Program
@@ -51,7 +51,7 @@ namespace LinkDev.Talabat.Apis
             WebApplicationBuilder.Services.AddPersistenceServices(WebApplicationBuilder.Configuration);
             WebApplicationBuilder.Services.AddApplicationServices();
 
-            
+            WebApplicationBuilder.Services.AddInfrastructureServices(WebApplicationBuilder.Configuration);
             #endregion
                   var app = WebApplicationBuilder.Build();
 

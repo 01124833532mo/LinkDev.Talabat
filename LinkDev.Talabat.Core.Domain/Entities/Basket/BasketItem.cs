@@ -20,7 +20,7 @@ namespace LinkDev.Talabat.Core.Domain.Entities.Basket
 
         public string? Brand { get; set; }
 
-        public string Category { get; set; }
+        public string? Category { get; set; }
 
     }
 }
