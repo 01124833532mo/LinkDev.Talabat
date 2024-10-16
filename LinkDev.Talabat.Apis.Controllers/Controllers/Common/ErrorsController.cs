@@ -13,7 +13,7 @@ namespace LinkDev.Talabat.Apis.Controllers.Controllers.Common
     [ApiController]
     [Route("Errors/{Code}")]
     [ApiExplorerSettings(IgnoreApi =false)]
-    internal class ErrorsController : ControllerBase
+    public class ErrorsController : ControllerBase
     {
         [HttpGet]
         public IActionResult Error(int Code)
