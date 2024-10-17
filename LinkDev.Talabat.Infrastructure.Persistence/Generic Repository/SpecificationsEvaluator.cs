@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LinkDev.Talabat.Infrastructure.Persistence.Repositories.Generic_Repository
+namespace LinkDev.Talabat.Infrastructure.Persistence.Generic_Repository
 {
     internal static class SpecificationsEvaluator<TEntity,Tkey> where TEntity : BaseEntity<Tkey> where Tkey : IEquatable<Tkey>
     {

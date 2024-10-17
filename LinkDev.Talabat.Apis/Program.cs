@@ -5,7 +5,10 @@ using LinkDev.Talabat.Core.Application.Abstraction;
 using LinkDev.Talabat.Infrastructure.Persistence;
 using LinkDev.Talabat.Core.Application;
 using static System.Net.Mime.MediaTypeNames;
-
+using Microsoft.AspNetCore.Mvc;
+using LinkDev.Talabat.Apis.Controllers.Errors;
+using LinkDev.Talabat.Apis.Middlewares;
+using LinkDev.Talabat.Infrastructure;
 namespace LinkDev.Talabat.Apis
 {
     public class Program
@@ -15,10 +18,29 @@ namespace LinkDev.Talabat.Apis
             #region Configure Services
             var WebApplicationBuilder = WebApplication.CreateBuilder(args);
 
-            
+
             // Add services to the container.
 
-            WebApplicationBuilder.Services.AddControllers().AddApplicationPart(typeof(Controllers.AssemblyInformation).Assembly);
+            WebApplicationBuilder.Services.AddControllers().ConfigureApiBehaviorOptions(options => {
+                //options.SuppressModelStateInvalidFilter=true; // disapple for action
+
+                options.SuppressModelStateInvalidFilter = false; // enable filter
+                options.InvalidModelStateResponseFactory = (actionContext) =>
+                {
+                    var errors = actionContext.ModelState.Where(p => p.Value!.Errors.Count() > 0)
+                                                         .Select(p => new ApiValidationErrorResponse.ValidationError()
+                                                         {
+                                                             Field = p.Key,
+                                                             Errors = p.Value!.Errors.Select(e => e.ErrorMessage)
+                                                         });
+                    return new BadRequestObjectResult(new ApiValidationErrorResponse()
+                    {
+                        Errors = errors
+
+                    });
+                };
+
+            }).AddApplicationPart(typeof(Controllers.AssemblyInformation).Assembly);
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             WebApplicationBuilder.Services.AddEndpointsApiExplorer();
             WebApplicationBuilder.Services.AddSwaggerGen();
@@ -29,7 +51,7 @@ namespace LinkDev.Talabat.Apis
             WebApplicationBuilder.Services.AddPersistenceServices(WebApplicationBuilder.Configuration);
             WebApplicationBuilder.Services.AddApplicationServices();
 
-            
+            WebApplicationBuilder.Services.AddInfrastructureServices(WebApplicationBuilder.Configuration);
             #endregion
                   var app = WebApplicationBuilder.Build();
 
@@ -43,6 +65,8 @@ namespace LinkDev.Talabat.Apis
 
 
             #region Configure Kestrel Middlewares
+            app.UseMiddleware<ExeptionHandlerMiddleware>();
+
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
@@ -50,7 +74,14 @@ namespace LinkDev.Talabat.Apis
                 app.UseSwaggerUI();
             }
 
+            
             app.UseHttpsRedirection();
+
+            app.UseStatusCodePagesWithReExecute("/Errors/{0}");
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
 
             app.UseStaticFiles(); ;
 
