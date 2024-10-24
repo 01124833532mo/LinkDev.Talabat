@@ -3,9 +3,12 @@ using LinkDev.Talabat.Core.Application.Abstraction.Services.Auth;
 using LinkDev.Talabat.Core.Application.Exeptions;
 using LinkDev.Talabat.Core.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -33,10 +36,10 @@ namespace LinkDev.Talabat.Core.Application.Services.Auth
 
             var response = new UserDto()
             {
-                Id=user.Id,
+                Id = user.Id,
                 DisplayName = user.DisplayName,
-                Email =user.Email!,
-                Token = "this will be token"
+                Email = user.Email!,
+                Token =await GenerateTokenAsync(user),
             };
 
             return response;
@@ -62,10 +65,50 @@ namespace LinkDev.Talabat.Core.Application.Services.Auth
                 Id = user.Id,
                 DisplayName = user.DisplayName,
                 Email = user.Email!,
-                Token = "this will be token"
+                Token = await GenerateTokenAsync(user),
             };
 
             return response;
+
+        }
+
+
+        private async Task<string> GenerateTokenAsync(ApplicationUser user)
+        {
+            var userclaims = await _userManager.GetClaimsAsync(user);
+            var rolesclaims = new List<Claim>();
+
+            var roles = await _userManager.GetRolesAsync(user);
+
+            foreach(var role in roles)
+            {
+                rolesclaims.Add(new Claim(ClaimTypes.Role, role.ToString()));
+            }
+
+            var Claims = new List<Claim>()
+            {
+                new Claim(ClaimTypes.PrimarySid,user.Id),
+                new Claim(ClaimTypes.Email,user.Email!),
+            new Claim(ClaimTypes.GivenName,user.DisplayName),
+
+
+
+            }.Union(userclaims)
+            .Union(rolesclaims);
+
+            var authkey =new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your-256-bit-seceret"));
+            var signinCredintal = new SigningCredentials(authkey, SecurityAlgorithms.HmacSha256);
+
+            var tokenObj = new JwtSecurityToken(
+                issuer: "TalabatIdentity",
+                audience: "TalabatUsers",
+                expires: DateTime.UtcNow.AddMinutes(10),
+                claims: Claims,
+                signingCredentials: signinCredintal
+
+                );
+          
+            return new JwtSecurityTokenHandler().WriteToken(tokenObj);
 
         }
     }
