@@ -17,12 +17,12 @@ namespace LinkDev.Talabat.Apis.Extensions
                 identityoptions.SignIn.RequireConfirmedEmail = true;
                 identityoptions.SignIn.RequireConfirmedAccount = true;
 
-                identityoptions.Password.RequireNonAlphanumeric = true;
-                identityoptions.Password.RequiredUniqueChars = 2;
-                identityoptions.Password.RequiredLength = 6;
-                identityoptions.Password.RequireDigit = true;
-                identityoptions.Password.RequireLowercase = true;
-                identityoptions.Password.RequireUppercase = true;
+                //identityoptions.Password.RequireNonAlphanumeric = true;
+                //identityoptions.Password.RequiredUniqueChars = 2;
+                //identityoptions.Password.RequiredLength = 6;
+                //identityoptions.Password.RequireDigit = true;
+                //identityoptions.Password.RequireLowercase = true;
+                //identityoptions.Password.RequireUppercase = true;
 
                 identityoptions.Lockout.AllowedForNewUsers = true;
                 identityoptions.Lockout.MaxFailedAccessAttempts = 10;
