@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LinkDev.Talabat.Infrastructure.Persistence.Data.Migrations
 {
-    [DbContext(typeof(StoreContext))]
+    [DbContext(typeof(StoreDbContext))]
     partial class StoreContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

@@ -15,14 +15,14 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.UnitOfWork
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly StoreContext _dbcontext;
+        private readonly StoreDbContext _dbcontext;
 
 
         private readonly ConcurrentDictionary<string,object> _repositories;
       
 
 
-        public UnitOfWork(StoreContext dbcontext)
+        public UnitOfWork(StoreDbContext dbcontext)
         {
             _dbcontext = dbcontext;
             _repositories = new ConcurrentDictionary<string,object>();
