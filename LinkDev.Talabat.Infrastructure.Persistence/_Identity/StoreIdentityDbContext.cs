@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.Infrastructure.Persistence.Identity
 {
-    internal class StoreIdentityDbContext :IdentityDbContext<ApplicationUser>
+    public class StoreIdentityDbContext :IdentityDbContext<ApplicationUser>
     {
         public StoreIdentityDbContext(DbContextOptions<StoreIdentityDbContext> options) :base(options)
         {

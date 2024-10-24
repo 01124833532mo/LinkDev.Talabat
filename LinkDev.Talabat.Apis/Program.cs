@@ -9,6 +9,9 @@ using Microsoft.AspNetCore.Mvc;
 using LinkDev.Talabat.Apis.Controllers.Errors;
 using LinkDev.Talabat.Apis.Middlewares;
 using LinkDev.Talabat.Infrastructure;
+using LinkDev.Talabat.Core.Domain.Entities.Identity;
+using Microsoft.AspNetCore.Identity;
+using LinkDev.Talabat.Infrastructure.Persistence.Identity;
 namespace LinkDev.Talabat.Apis
 {
     public class Program
@@ -52,12 +55,14 @@ namespace LinkDev.Talabat.Apis
             WebApplicationBuilder.Services.AddApplicationServices();
 
             WebApplicationBuilder.Services.AddInfrastructureServices(WebApplicationBuilder.Configuration);
+            WebApplicationBuilder.Services.AddIdentityServices();
+
             #endregion
                   var app = WebApplicationBuilder.Build();
 
             #region Databases initilization
 
-       await app.InitializeStoreContextAsync();
+       await app.InitializeDbAsync();
 
             #endregion
 
