@@ -39,7 +39,7 @@ namespace LinkDev.Talabat.Core.Application.Services
             _configuration = configuration;
             _productService = new Lazy<IProductService>(()=> new ProductService(_unitOfWork,_mapper));
             _employeeService = new Lazy<IEmployeeService>(() => new EmployeeService(_unitOfWork, _mapper));
-            _basketService = new Lazy<IBasketService>(basketServiceFactory);
+            _basketService = new Lazy<IBasketService>(basketServiceFactory, LazyThreadSafetyMode.ExecutionAndPublication);
             _authService = new Lazy<IAuthService>(authservicefactory, LazyThreadSafetyMode.ExecutionAndPublication);
         }
         public IProductService ProductService => _productService.Value;
@@ -49,5 +49,7 @@ namespace LinkDev.Talabat.Core.Application.Services
         public IBasketService BasketService => _basketService.Value;
 
         public IAuthService AuthService => _authService.Value;
+
+        //public IAuthService AuthService => _authService.Value;
     }
 }

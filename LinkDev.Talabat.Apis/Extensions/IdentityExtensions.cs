@@ -17,7 +17,7 @@ namespace LinkDev.Talabat.Apis.Extensions
 
                 identityoptions.SignIn.RequireConfirmedPhoneNumber = true;
                 identityoptions.SignIn.RequireConfirmedEmail = true;
-                identityoptions.SignIn.RequireConfirmedAccount = true;
+                //identityoptions.SignIn.RequireConfirmedAccount = true;
 
                 //identityoptions.Password.RequireNonAlphanumeric = true;
                 //identityoptions.Password.RequiredUniqueChars = 2;
@@ -35,7 +35,7 @@ namespace LinkDev.Talabat.Apis.Extensions
 
             services.AddScoped(typeof(IAuthService), typeof(AuthService));
 
-            services.AddScoped(typeof(IAuthService), (serviceprovider) =>
+            services.AddScoped(typeof(Func<IAuthService>), (serviceprovider) =>
             {
                return ()=> serviceprovider.GetService<IAuthService>();
             });

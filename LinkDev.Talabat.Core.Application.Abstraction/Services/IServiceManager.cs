@@ -20,6 +20,5 @@ namespace LinkDev.Talabat.Core.Application.Abstraction.Services
 
         public IAuthService AuthService { get; }
 
-
     }
 }

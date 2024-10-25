@@ -32,7 +32,7 @@ namespace LinkDev.Talabat.Core.Application.Services.Auth
 
             //if (result.RequiresTwoFactor) new UnAuthorizedExeption("Requerd Two-Factor Authentcation ");
 
-            if(!result.Succeeded) new UnAuthorizedExeption("Invalid Login. ");
+            if(!result.Succeeded) throw new UnAuthorizedExeption("Invalid Login. ");
 
             var response = new UserDto()
             {
@@ -96,7 +96,7 @@ namespace LinkDev.Talabat.Core.Application.Services.Auth
             }.Union(userclaims)
             .Union(rolesclaims);
 
-            var authkey =new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your-256-bit-seceret"));
+            var authkey =new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your-256-bit-secerDASDASSDASDASDDASet"));
             var signinCredintal = new SigningCredentials(authkey, SecurityAlgorithms.HmacSha256);
 
             var tokenObj = new JwtSecurityToken(
