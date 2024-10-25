@@ -55,7 +55,7 @@ namespace LinkDev.Talabat.Apis
             WebApplicationBuilder.Services.AddApplicationServices();
 
             WebApplicationBuilder.Services.AddInfrastructureServices(WebApplicationBuilder.Configuration);
-            WebApplicationBuilder.Services.AddIdentityServices();
+            WebApplicationBuilder.Services.AddIdentityServices(WebApplicationBuilder.Configuration);
 
             #endregion
                   var app = WebApplicationBuilder.Build();
@@ -88,7 +88,11 @@ namespace LinkDev.Talabat.Apis
             app.UseAuthorization();
 
 
-            app.UseStaticFiles(); ;
+            app.UseStaticFiles();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
 
             app.MapControllers();
 

@@ -4,6 +4,8 @@ using LinkDev.Talabat.Core.Application.Abstraction.Common;
 using LinkDev.Talabat.Core.Application.Abstraction.Models.Products;
 using LinkDev.Talabat.Core.Application.Abstraction.Products;
 using LinkDev.Talabat.Core.Application.Abstraction.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -15,7 +17,6 @@ namespace LinkDev.Talabat.Apis.Controllers.Controllers.Products
 {
     public class ProductsController(IServiceManager serviceManager) : BaseApiController
     {
-
 
         [HttpGet]
         public async Task <ActionResult<Pagination<ProductToReturnDto>>> GetProducts([FromQuery ]ProductSpecParams specParams)
