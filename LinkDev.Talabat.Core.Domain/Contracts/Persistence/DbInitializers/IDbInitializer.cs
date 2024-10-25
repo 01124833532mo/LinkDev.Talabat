@@ -4,14 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LinkDev.Talabat.Core.Domain.Contracts.Persistence
+namespace LinkDev.Talabat.Core.Domain.Contracts.Persistence.DbInitializers
 {
-    public interface IStoreContextInitializer
+    public interface IDbInitializer
     {
-
         Task InitializeAsync();
 
-        Task SeedAsunc();
-
+        Task SeedAsync();
     }
 }

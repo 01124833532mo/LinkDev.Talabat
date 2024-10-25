@@ -13,6 +13,7 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Data.Config.Base
     {
         public override void Configure(EntityTypeBuilder<TEntity> builder)
         {
+            base.Configure(builder);
 
             builder.Property(E => E.CreatedBy).IsRequired();
 

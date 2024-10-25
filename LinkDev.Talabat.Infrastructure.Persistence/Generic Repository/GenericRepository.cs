@@ -9,9 +9,9 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Repositories.Generic_Reposi
     internal class GenericRepository<TEntity, Tkey>
         : IGenericRepository<TEntity, Tkey> where TEntity : BaseEntity<Tkey> where Tkey : IEquatable<Tkey>
     {
-        private readonly StoreContext _dbContext;
+        private readonly StoreDbContext _dbContext;
 
-        public GenericRepository(StoreContext dbContext)
+        public GenericRepository(StoreDbContext dbContext)
         {
             _dbContext = dbContext;
         }
