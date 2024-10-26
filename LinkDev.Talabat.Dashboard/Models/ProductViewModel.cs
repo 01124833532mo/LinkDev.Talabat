@@ -22,13 +22,13 @@ namespace LinkDev.Talabat.Dashboard.Models
 		public decimal Price { get; set; }
 
 		[Required(ErrorMessage = "ProductCategoryId is Required")]
-		public int ProductTypeId { get; set; }
-		public ProductCategory? ProductCategory { get; set; }
+		public int CategoryId { get; set; }
+		public ProductCategory? Category { get; set; }
 
 		[Required(ErrorMessage = "ProductBrandId is Required")]
-		public int ProductBrandId { get; set; }
-		public ProductBrand? ProductBrand
-		{
+		public int BrandId { get; set; }
+		public ProductBrand? Brand
+        {
 			get;
 			set;
 		}
