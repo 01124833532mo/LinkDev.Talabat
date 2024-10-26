@@ -1,6 +1,11 @@
+using LinkDev.Talabat.Core.Application.Abstraction.Services;
+using LinkDev.Talabat.Core.Application.Services;
+using LinkDev.Talabat.Core.Domain.Contracts.Persistence;
 using LinkDev.Talabat.Core.Domain.Entities.Identity;
+using LinkDev.Talabat.Dashboard.Helpers;
 using LinkDev.Talabat.Infrastructure.Persistence.Data;
 using LinkDev.Talabat.Infrastructure.Persistence.Identity;
+using LinkDev.Talabat.Infrastructure.Persistence.UnitOfWork;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -50,7 +55,8 @@ namespace LinkDev.Talabat.Dashboard
 
 
             }).AddEntityFrameworkStores<StoreIdentityDbContext>();
-
+            builder.Services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
+            builder.Services.AddAutoMapper(typeof(MapsProfile));
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
