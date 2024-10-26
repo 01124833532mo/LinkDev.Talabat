@@ -11,11 +11,11 @@ namespace LinkDev.Talabat.Dashboard.Controllers
 {
 	public class ProductController(IUnitOfWork _unitOfWork , IMapper _mapper) : Controller
 	{
-		public async Task< IActionResult> Index( /*ProductSpecParams specParams*/)
+		public async Task< IActionResult> Index(ProductSpecParams specParams)
 		{
-            //var spec = new ProductWithBrandAndCategorySpecifications(specParams.Sort, specParams.BrandId, specParams.CategoryId, specParams.PageSize, specParams.PageIndex, specParams.Search);
+            var spec = new ProductWithBrandAndCategorySpecifications(specParams.Sort, specParams.BrandId, specParams.CategoryId, specParams.PageSize=int.MaxValue, specParams.PageIndex=1, specParams.Search);
 
-            var products = await _unitOfWork.GetRepository<Product, int>().GetAllAsync();
+            var products = await _unitOfWork.GetRepository<Product, int>().GetAllWithSpecAsync(spec);
 			var mappedProduct = _mapper.Map<IEnumerable<Product>, IEnumerable<ProductViewModel>>(products);
 			return View(mappedProduct);
 		}
