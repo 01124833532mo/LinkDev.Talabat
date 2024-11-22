@@ -1,3 +1,14 @@
+using LinkDev.Talabat.Core.Application.Abstraction.Services;
+using LinkDev.Talabat.Core.Application.Services;
+using LinkDev.Talabat.Core.Domain.Contracts.Persistence;
+using LinkDev.Talabat.Core.Domain.Entities.Identity;
+using LinkDev.Talabat.Dashboard.Helpers;
+using LinkDev.Talabat.Infrastructure.Persistence.Data;
+using LinkDev.Talabat.Infrastructure.Persistence.Identity;
+using LinkDev.Talabat.Infrastructure.Persistence.UnitOfWork;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+
 namespace LinkDev.Talabat.Dashboard
 {
     public class Program
@@ -8,7 +19,44 @@ namespace LinkDev.Talabat.Dashboard
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+           builder. Services.AddDbContext<StoreDbContext>((optionsBuilder) =>
+            {
 
+                optionsBuilder.UseSqlServer(builder.Configuration.GetConnectionString("StoreContext"));
+            });
+
+
+           builder. Services.AddDbContext<StoreIdentityDbContext>((optionsBuilder) =>
+            {
+
+                optionsBuilder.UseSqlServer(builder.Configuration.GetConnectionString("IdentityContext"));
+            });
+
+
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(identityoptions =>
+            {
+
+                identityoptions.User.RequireUniqueEmail = true;
+
+                identityoptions.SignIn.RequireConfirmedPhoneNumber = true;
+                identityoptions.SignIn.RequireConfirmedEmail = true;
+                //identityoptions.SignIn.RequireConfirmedAccount = true;
+
+                //identityoptions.Password.RequireNonAlphanumeric = true;
+                //identityoptions.Password.RequiredUniqueChars = 2;
+                //identityoptions.Password.RequiredLength = 6;
+                //identityoptions.Password.RequireDigit = true;
+                //identityoptions.Password.RequireLowercase = true;
+                //identityoptions.Password.RequireUppercase = true;
+
+                identityoptions.Lockout.AllowedForNewUsers = true;
+                identityoptions.Lockout.MaxFailedAccessAttempts = 10;
+                identityoptions.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
+
+
+            }).AddEntityFrameworkStores<StoreIdentityDbContext>();
+            builder.Services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
+            builder.Services.AddAutoMapper(typeof(MapsProfile));
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -28,7 +76,7 @@ namespace LinkDev.Talabat.Dashboard
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Admin}/{action=Login}/{id?}");
 
             app.Run();
         }
