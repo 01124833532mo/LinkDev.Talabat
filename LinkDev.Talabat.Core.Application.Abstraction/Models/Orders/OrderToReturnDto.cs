@@ -16,7 +16,7 @@ namespace LinkDev.Talabat.Core.Application.Abstraction.Models.Orders
 		public DateTime OrderDate { get; set; }
 		public required string Status { get; set; } 
 
-		public required AddressDto ShippingAddress { get; set; }
+		public  AddressDto ShippingAddress { get; set; }
 
 		public int? DeliveryMethodId { get; set; }
 

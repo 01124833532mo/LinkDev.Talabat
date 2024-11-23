@@ -27,7 +27,6 @@ namespace LinkDev.Talabat.Core.Domain.Entities.Orders
         //public decimal Total => Subtotal + DeliveryMethod!.Cost;
 
         // derived attribute
-
         public decimal GetTotal => Subtotal + DeliveryMethod!.Cost;
 
         public string PaymentIntentId { get; set; } = "";

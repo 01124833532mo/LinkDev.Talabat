@@ -22,6 +22,7 @@ namespace LinkDev.Talabat.Apis.Controllers.Errors
 
         private  string? GetDefaultMessageForStatusCode(int statuscode)
         {
+            
             return statuscode switch
             {
                 400 => "A Bad Request ,you have made",
