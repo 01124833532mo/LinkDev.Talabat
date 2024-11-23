@@ -74,6 +74,7 @@ namespace LinkDev.Talabat.Core.Application.Services.Orders
 				Items = orderitems,
 				Subtotal= subtotal,
 				DeliveryMethod =deliverymethod,
+				DeliveryMethodId = order.DeliveryMethodId,
 
 			};
 
@@ -92,7 +93,7 @@ namespace LinkDev.Talabat.Core.Application.Services.Orders
 		{
 			var ordersSpecs = new OrderSpecifications(buyerEmail);
 
-			var orders= await unitOfWork.GetRepository<Order,int>().GetWithSpecAsync(ordersSpecs);
+			var orders= await unitOfWork.GetRepository<Order,int>().GetAllWithSpecAsync(ordersSpecs);
 			return mapper.Map<IEnumerable<OrderToReturnDto>>(orders);
 		}
 
