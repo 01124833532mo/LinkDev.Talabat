@@ -74,7 +74,7 @@ namespace LinkDev.Talabat.Core.Application.Services.Orders
 				Items = orderitems,
 				Subtotal= subtotal,
 				DeliveryMethod =deliverymethod,
-				DeliveryMethodId = order.DeliveryMethodId,
+				//DeliveryMethodId = order.DeliveryMethodId,
 
 			};
 
