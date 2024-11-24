@@ -12,6 +12,7 @@ using LinkDev.Talabat.Infrastructure;
 using LinkDev.Talabat.Core.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 using LinkDev.Talabat.Infrastructure.Persistence.Identity;
+using Newtonsoft.Json;
 namespace LinkDev.Talabat.Apis
 {
     public class Program
@@ -24,7 +25,10 @@ namespace LinkDev.Talabat.Apis
 
             // Add services to the container.
 
-            WebApplicationBuilder.Services.AddControllers().ConfigureApiBehaviorOptions(options => {
+            WebApplicationBuilder.Services.AddControllers().AddNewtonsoftJson(option =>
+            {
+                option.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            }).ConfigureApiBehaviorOptions(options => {
                 //options.SuppressModelStateInvalidFilter=true; // disapple for action
 
                 options.SuppressModelStateInvalidFilter = false; // enable filter
