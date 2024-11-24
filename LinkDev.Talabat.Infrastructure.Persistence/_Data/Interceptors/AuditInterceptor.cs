@@ -67,15 +67,15 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Data.Interceptors
 		}
 
 
-		private void SetPropertyIfExists(object entity, string propertyName, object value)
-		{
-			var property = entity.GetType().GetProperty(propertyName);
+		//private void SetPropertyIfExists(object entity, string propertyName, object value)
+		//{
+		//	var property = entity.GetType().GetProperty(propertyName);
 
-			if (property != null && property.CanWrite)
-			{
-				property.SetValue(entity, value);
-			}
-		}
+		//	if (property != null && property.CanWrite)
+		//	{
+		//		property.SetValue(entity, value);
+		//	}
+		//}
 
 
 	}
