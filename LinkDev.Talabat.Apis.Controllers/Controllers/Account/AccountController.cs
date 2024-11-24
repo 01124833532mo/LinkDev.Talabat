@@ -1,5 +1,6 @@
 ﻿using LinkDev.Talabat.Apis.Controllers.Base;
 using LinkDev.Talabat.Core.Application.Abstraction.Models.Auth;
+using LinkDev.Talabat.Core.Application.Abstraction.Models.Common;
 using LinkDev.Talabat.Core.Application.Abstraction.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -34,8 +35,20 @@ namespace LinkDev.Talabat.Apis.Controllers.Controllers.Account
 		[HttpGet]
 		public async Task<ActionResult<UserDto>> GetCurrentUser()
         {
+            
             var result = await serviceManager.AuthService.GetCurrentUser(User);
             return Ok(result);
         }
-    }
+
+		[Authorize]
+		[HttpGet("address")]
+		public async Task<ActionResult<AddressDto>> GetUserAddress()
+		{
+
+			var result = await serviceManager.AuthService.GetUserAddress(User);
+			return Ok(result);
+		}
+
+
+	}
 }
