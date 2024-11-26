@@ -15,7 +15,7 @@ namespace LinkDev.Talabat.Core.Domain.Entities.Identity
         public required string LastName { get; set; }
 
 
-        public required string Streat { get; set; }
+        public required string Street { get; set; }
 
         public required string City { get; set; }
 
