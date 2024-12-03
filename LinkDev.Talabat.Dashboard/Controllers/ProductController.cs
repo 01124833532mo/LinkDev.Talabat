@@ -43,9 +43,9 @@ namespace LinkDev.Talabat.Dashboard.Controllers
                
 
                 var mappedProduct = _mapper.Map<ProductViewModel, Product>(productViewModel);
-				mappedProduct.CreatedBy = "1";
-				mappedProduct.LastModifiedBy = "1";
-				mappedProduct.NormalizedName = productViewModel.Name.ToUpper().Replace(" ", "-");
+				//mappedProduct.CreatedBy = "1";
+				//mappedProduct.LastModifiedBy = "1";
+				//mappedProduct.NormalizedName = productViewModel.Name.ToUpper().Replace(" ", "-");
 				await _unitOfWork.GetRepository<Product,int>().AddAsync(mappedProduct);
                 await _unitOfWork.CompleteAsync();
 
@@ -83,9 +83,9 @@ namespace LinkDev.Talabat.Dashboard.Controllers
               
 
                 var mappedProduct = _mapper.Map<ProductViewModel, Product>(productViewModel);
-				mappedProduct.CreatedBy = "1";
-				mappedProduct.LastModifiedBy = "1";
-				mappedProduct.NormalizedName = productViewModel.Name.ToUpper().Replace(" ", "-");
+				//mappedProduct.CreatedBy = "1";
+				//mappedProduct.LastModifiedBy = "1";
+				//mappedProduct.NormalizedName = productViewModel.Name.ToUpper().Replace(" ", "-");
 				_unitOfWork.GetRepository<Product,int>().Update(mappedProduct);
                 var result = await _unitOfWork.CompleteAsync();
 

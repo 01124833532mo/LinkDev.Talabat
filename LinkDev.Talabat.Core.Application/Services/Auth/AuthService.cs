@@ -1,6 +1,9 @@
-﻿using LinkDev.Talabat.Core.Application.Abstraction.Models.Auth;
+﻿using AutoMapper;
+using LinkDev.Talabat.Core.Application.Abstraction.Models.Auth;
+using LinkDev.Talabat.Core.Application.Abstraction.Models.Common;
 using LinkDev.Talabat.Core.Application.Abstraction.Services.Auth;
 using LinkDev.Talabat.Core.Application.Exeptions;
+using LinkDev.Talabat.Core.Application.Extenstions;
 using LinkDev.Talabat.Core.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -17,12 +20,44 @@ using System.Threading.Tasks;
 namespace LinkDev.Talabat.Core.Application.Services.Auth
 {
     public class AuthService(
+        IMapper mapper,
         IOptions<JwtSettings> jwtSettings,
         UserManager<ApplicationUser> _userManager,
         SignInManager<ApplicationUser> _signInManager) : IAuthService
     {
         private readonly JwtSettings _jwtSettings = jwtSettings.Value;
-        public async Task<UserDto> LoginAsync(LoginDto model)
+
+		public async Task<bool> EmailExists(string email)
+		{
+            return await _userManager.FindByEmailAsync(email) is not null;
+		}
+
+		public async Task<UserDto> GetCurrentUser(ClaimsPrincipal claimsPrincipal)
+		{
+            var email = claimsPrincipal.FindFirstValue(ClaimTypes.Email);
+            var user = await _userManager.FindByEmailAsync(email!);
+
+            return new UserDto()
+            {
+                Id = user!.Id,
+                Email = user!.Email!,
+                DisplayName = user.DisplayName,
+                Token = await GenerateTokenAsync(user)
+
+            };
+
+		}
+
+		public async Task<AddressDto?> GetUserAddress(ClaimsPrincipal claimsPrincipal)
+		{
+            var user = await _userManager.FindUserWithAddress(claimsPrincipal!);
+
+          var address=  mapper.Map<AddressDto>(user!.Address);
+
+            return address;
+		}
+
+		public async Task<UserDto> LoginAsync(LoginDto model)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
 
@@ -53,6 +88,9 @@ namespace LinkDev.Talabat.Core.Application.Services.Auth
 
         public async Task<UserDto> RegisterAsync(RegisterDto model)
         {
+            //if (EmailExists(model.Email).Result)
+            //    throw new BadRequestExeption("This Email Is Already in User");
+
             var user = new ApplicationUser()
             {
                 DisplayName = model.DisplayName,
@@ -78,8 +116,24 @@ namespace LinkDev.Talabat.Core.Application.Services.Auth
 
         }
 
+		public async Task<AddressDto> UpdateUserAddress(ClaimsPrincipal claimsPrincipal,AddressDto addressDto)
+		{
+            var updatedaddres = mapper.Map<Address>(addressDto);
 
-        private async Task<string> GenerateTokenAsync(ApplicationUser user)
+			var user = await _userManager.FindUserWithAddress(claimsPrincipal!);
+
+            if(user?.Address is not null)
+                updatedaddres.Id = user.Address.Id;
+
+            user!.Address = updatedaddres;
+
+            var result = await _userManager.UpdateAsync(user);
+
+            if(!result.Succeeded) throw new BadRequestExeption(result.Errors.Select(error => error.Description).Aggregate((x,y)=>$"{x},{y}"));
+            return addressDto;
+		}
+
+		private async Task<string> GenerateTokenAsync(ApplicationUser user)
         {
             var userclaims = await _userManager.GetClaimsAsync(user);
             var rolesclaims = new List<Claim>();
