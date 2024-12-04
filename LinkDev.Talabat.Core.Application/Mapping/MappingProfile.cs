@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using LinkDev.Talabat.Core.Application.Abstraction.Models.Basket;
 using LinkDev.Talabat.Core.Application.Abstraction.Models.Common;
 using LinkDev.Talabat.Core.Application.Abstraction.Models.Employees;
 using LinkDev.Talabat.Core.Application.Abstraction.Models.Orders;
@@ -8,23 +7,13 @@ using LinkDev.Talabat.Core.Domain.Entities.Basket;
 using LinkDev.Talabat.Core.Domain.Entities.Employees;
 using LinkDev.Talabat.Core.Domain.Entities.Orders;
 using LinkDev.Talabat.Core.Domain.Entities.Products;
-using LinkDev.Talabat.Core.Domain.Entities.Orders;
-
-
-    using LinkDev.Talabat.Core.Domain.Entities.Identity;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Net.WebRequestMethods;
-using UserAddress = LinkDev.Talabat.Core.Domain.Entities.Identity.Address;
+using LinkDev.Talabat.Shared.Models.Basket;
 using OrderAddress = LinkDev.Talabat.Core.Domain.Entities.Orders.Address;
+using UserAddress = LinkDev.Talabat.Core.Domain.Entities.Identity.Address;
 
 namespace LinkDev.Talabat.Core.Application.Mapping
 {
-    internal class MappingProfile : Profile
+	internal class MappingProfile : Profile
     {
         public MappingProfile()
         {

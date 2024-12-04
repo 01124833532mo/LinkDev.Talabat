@@ -1,16 +1,11 @@
 ﻿using LinkDev.Talabat.Apis.Controllers.Base;
-using LinkDev.Talabat.Core.Application.Abstraction.Models.Basket;
 using LinkDev.Talabat.Core.Application.Abstraction.Services;
+using LinkDev.Talabat.Shared.Models.Basket;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.Apis.Controllers.Controllers.Basket
 {
-    public class BasketController(IServiceManager serviceManager) :BaseApiController
+	public class BasketController(IServiceManager serviceManager) :BaseApiController
     {
         [HttpGet]
         public async Task<ActionResult<CustomerBasketDto>> GetBasket(string id)
