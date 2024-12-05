@@ -53,7 +53,16 @@ namespace LinkDev.Talabat.Apis
             WebApplicationBuilder.Services.AddSwaggerGen();
 
            WebApplicationBuilder.Services.AddHttpContextAccessor();
-            WebApplicationBuilder.Services.AddScoped(typeof(ILoggedInUserService), typeof(LoggedInUserService));
+            WebApplicationBuilder.Services.AddCors(corsOptions =>
+            {
+                corsOptions.AddPolicy("TalabatPolicy", policyBuilder =>
+                {
+                    policyBuilder.AllowAnyHeader().AllowAnyMethod().WithOrigins(WebApplicationBuilder.Configuration["Urls:FrontBaseUrl"]!);
+                });
+            });
+
+
+			WebApplicationBuilder.Services.AddScoped(typeof(ILoggedInUserService), typeof(LoggedInUserService));
 
             WebApplicationBuilder.Services.AddPersistenceServices(WebApplicationBuilder.Configuration);
             WebApplicationBuilder.Services.AddApplicationServices();
@@ -88,11 +97,12 @@ namespace LinkDev.Talabat.Apis
 
             app.UseStatusCodePagesWithReExecute("/Errors/{0}");
 
-            app.UseAuthentication();
-            app.UseAuthorization();
+          
 
 
             app.UseStaticFiles();
+
+            app.UseCors("TalabatPolicy");
 
             app.UseAuthentication();
             app.UseAuthorization();
