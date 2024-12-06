@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using LinkDev.Talabat.Core.Application.Abstraction.Common.Contract.Infrastructure;
 using LinkDev.Talabat.Core.Application.Exeptions;
 using LinkDev.Talabat.Core.Domain.Contracts.Infrastructure;
 using LinkDev.Talabat.Core.Domain.Contracts.Persistence;

@@ -1,4 +1,5 @@
-﻿using LinkDev.Talabat.Core.Domain.Contracts.Infrastructure;
+﻿using LinkDev.Talabat.Core.Application.Abstraction.Common.Contract.Infrastructure;
+using LinkDev.Talabat.Core.Domain.Contracts.Infrastructure;
 using LinkDev.Talabat.Infrastructure.Basket_Repository;
 using LinkDev.Talabat.Infrastructure.Payment_Service;
 using LinkDev.Talabat.Shared.Models;

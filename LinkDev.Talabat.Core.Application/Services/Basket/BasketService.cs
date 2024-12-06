@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using LinkDev.Talabat.Core.Application.Abstraction.Services.Basket;
+using LinkDev.Talabat.Core.Application.Abstraction.Common.Contract.Infrastructure;
 using LinkDev.Talabat.Core.Application.Exeptions;
 using LinkDev.Talabat.Core.Domain.Contracts.Infrastructure;
 using LinkDev.Talabat.Core.Domain.Entities.Basket;
@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace LinkDev.Talabat.Core.Application.Services.Basket
 {
-	internal class BasketService(IBasketRepository basketRepository,IMapper mapper,IConfiguration configuration) : IBasketService
+    internal class BasketService(IBasketRepository basketRepository,IMapper mapper,IConfiguration configuration) : IBasketService
     {
 
         public async Task<CustomerBasketDto> GetCustomerBasketAsync(string basketId)
