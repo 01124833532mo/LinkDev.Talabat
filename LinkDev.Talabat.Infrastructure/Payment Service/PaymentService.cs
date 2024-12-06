@@ -2,12 +2,15 @@
 using LinkDev.Talabat.Core.Application.Exeptions;
 using LinkDev.Talabat.Core.Domain.Contracts.Infrastructure;
 using LinkDev.Talabat.Core.Domain.Contracts.Persistence;
+using LinkDev.Talabat.Core.Domain.Contracts.Specifications.Orders;
 using LinkDev.Talabat.Core.Domain.Entities.Basket;
 using LinkDev.Talabat.Core.Domain.Entities.Orders;
 using LinkDev.Talabat.Shared.Models;
 using LinkDev.Talabat.Shared.Models.Basket;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Stripe;
+using Stripe.Forwarding;
 using Product = LinkDev.Talabat.Core.Domain.Entities.Products.Product;
 
 namespace LinkDev.Talabat.Infrastructure.Payment_Service
@@ -16,7 +19,8 @@ namespace LinkDev.Talabat.Infrastructure.Payment_Service
 		, IUnitOfWork unitOfWork
 		,IOptions<RedisSettings> redisSettings
 		,IMapper mapper,
-		IOptions<StripeSettings> stripeSettings) : IPaymentService
+		IOptions<StripeSettings> stripeSettings,
+		ILogger<PaymentService> logger) : IPaymentService
 	{
 
 		private readonly RedisSettings _redisSettings = redisSettings.Value;
@@ -87,5 +91,60 @@ namespace LinkDev.Talabat.Infrastructure.Payment_Service
 
 
 		}
+
+		public async Task UpdateOrderPaymentStatus(string requestBody, string header)
+		{
+
+			
+				var stripeEvent = EventUtility.ConstructEvent(requestBody, header,_stripeSettings.WebhookSecret);
+
+			// Handle the event
+
+			var paymentIntent = (PaymentIntent) stripeEvent.Data.Object;
+			Order? order;
+				switch (stripeEvent.Type)
+				{
+					case "payment_intent.succeeded":
+					order =await UpdatePaymentIntent(paymentIntent.Id,isPaid:true);
+					logger.LogInformation("Order is Succeeded With Payment IntentId:{0}", paymentIntent.Id);
+						break;
+					case "payment_intent.payment_failed":
+					order=	await	UpdatePaymentIntent(paymentIntent.Id,isPaid:false);
+					logger.LogInformation("Order is !Succeeded With Payment IntentId:{0}", paymentIntent.Id);
+
+
+					break;
+				}
+
+
+			
+			
+		}
+
+
+		private async Task<Order> UpdatePaymentIntent(string paymentIntentId,bool isPaid)
+		{
+			var orderRepo = unitOfWork.GetRepository<Order, int>();
+
+			var spec = new OrderByPaymentIntentSpecifications(paymentIntentId);
+			var order =await orderRepo.GetWithSpecAsync(spec);
+
+			if(order is null) throw new NotFoundExeption(nameof(order), $"PaymentIntentId :{paymentIntentId}") ;
+
+			if(isPaid)
+			order.Status = OrderStatus.PaymentReceived;
+			else
+			order.Status = OrderStatus.PaymentFailed;
+
+
+			orderRepo.Update(order);
+
+			await unitOfWork.CompleteAsync();
+			return order;
+
+		}
+	
+
+		
 	}
 }

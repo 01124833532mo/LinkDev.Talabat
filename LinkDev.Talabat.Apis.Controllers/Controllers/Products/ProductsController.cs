@@ -38,7 +38,7 @@ namespace LinkDev.Talabat.Apis.Controllers.Controllers.Products
         }
 
 
-        [HttpGet("brand")]
+        [HttpGet("brands")]
          
         public async Task <ActionResult<IEnumerable<BrandDto>>> GetBrands()
         {

@@ -6,14 +6,27 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LinkDev.Talabat.Apis.Controllers.Controllers.Payment
 {
-	[Authorize]
+	
 	public class PaymentController(IPaymentService paymentService) : BaseApiController
 	{
+		[Authorize]
 		[HttpPost("{basketId}")]
 		public async Task<ActionResult<CustomerBasketDto>> CreateOrUpdatePaymentIntent(string basketId)
 		{
 			var result = await paymentService.CreateOrUpdatePaymentIntent(basketId);
 			return Ok(result);
 		}
+
+		[HttpPost("webhook")]
+		public async Task<IActionResult> WebHook()
+		{
+
+
+			var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
+
+			await paymentService.UpdateOrderPaymentStatus(json, Request.Headers["Stripe-Signature"]!);
+			return Ok();
+		}
+
 	}
 }
