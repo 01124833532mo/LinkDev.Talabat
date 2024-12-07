@@ -72,14 +72,14 @@ namespace LinkDev.Talabat.Apis.Middlewares
 
                     break;
 
-                //case ValidationExeption validationExeption:
+                case ValidationExeption validationExeption:
 
-                //    httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                //    httpContext.Response.ContentType = "application/json";
-                //    response = new ApiValidationErrorResponse(ex.Message) { Errors = validationExeption.Errors };
-                //    await httpContext.Response.WriteAsync(response.ToString());
+                    httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    httpContext.Response.ContentType = "application/json";
+                    response = new ApiValidationErrorResponse(ex.Message) { Errors = validationExeption.Errors };
+                    await httpContext.Response.WriteAsync(response.ToString());
 
-                //    break;
+                    break;
 
 
                 case BadRequestExeption:
