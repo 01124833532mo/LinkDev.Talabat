@@ -1,6 +1,7 @@
 ﻿using LinkDev.Talabat.Core.Application.Abstraction.Common.Contract.Infrastructure;
 using LinkDev.Talabat.Core.Domain.Contracts.Infrastructure;
 using LinkDev.Talabat.Infrastructure.Basket_Repository;
+using LinkDev.Talabat.Infrastructure.Cache_Sevice;
 using LinkDev.Talabat.Infrastructure.Payment_Service;
 using LinkDev.Talabat.Shared.Models;
 using Microsoft.Extensions.Configuration;
@@ -32,7 +33,10 @@ namespace LinkDev.Talabat.Infrastructure
             });
             services.AddScoped(typeof(IBasketRepository), typeof(BasketRepository));
 
-            services.AddScoped(typeof(IPaymentService), typeof(PaymentService));
+			services.AddSingleton(typeof(IResponseCacheService), typeof(ResponseCacheService));
+
+
+			services.AddScoped(typeof(IPaymentService), typeof(PaymentService));
 
             return services;
         
