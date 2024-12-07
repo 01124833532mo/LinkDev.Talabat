@@ -1,5 +1,6 @@
 ﻿using LinkDev.Talabat.Apis.Controllers.Base;
 using LinkDev.Talabat.Apis.Controllers.Errors;
+using LinkDev.Talabat.Apis.Controllers.Filters;
 using LinkDev.Talabat.Core.Application.Abstraction.Common;
 using LinkDev.Talabat.Core.Application.Abstraction.Models.Products;
 using LinkDev.Talabat.Core.Application.Abstraction.Products;
@@ -17,7 +18,7 @@ namespace LinkDev.Talabat.Apis.Controllers.Controllers.Products
 {
     public class ProductsController(IServiceManager serviceManager) : BaseApiController
     {
-
+        [CachedAttribute(600)]
         [HttpGet]
         public async Task <ActionResult<Pagination<ProductToReturnDto>>> GetProducts([FromQuery ]ProductSpecParams specParams)
         {
