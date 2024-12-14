@@ -51,7 +51,7 @@ This API provides endpoints for:
 -Order Table: Stores order details once the basket is confirmed and payment is completed.
 
 ## Key Features
-1. User Management
+### 1. User Management
 -Registration and Authentication: Users can sign up and sign in using secure authentication.
 
 -Authorization: Certain endpoints are protected, accessible only to authenticated users.
