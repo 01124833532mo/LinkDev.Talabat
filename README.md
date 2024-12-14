@@ -79,6 +79,8 @@ This API provides endpoints for:
    -Testing: Stripe test cards are used to verify the payment functionality in a development environment.
    
 
+## Live Demo
+[Live Demo](https://www.linkedin.com/posts/mohamed-hamdy-190b5b228_aspnet-webapis-ecommerce-activity-7273545399485804544-djkv?utm_source=share&utm_medium=member_desktop)
 
 
   
