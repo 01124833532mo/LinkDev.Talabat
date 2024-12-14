@@ -9,23 +9,33 @@ This API provides endpoints for:
 -Dashboard to manged Products , Brand , Roles,Users by Admin
 -Using Identity Package (Authentcation & Authorization)
 ## Technologies Used
-ASP.NET Core: For building the API.
+-ASP.NET Core: For building the API.
 
-Entity Framework Core: For ORM and database management.
+-Entity Framework Core: For ORM and database management.
 
-SQL Server: As the primary database to store persistent data.
+-SQL Server: As the primary database to store persistent data.
 
-Redis: For temporary basket storage.
-Stripe API: For payment processing with intent-based transactions.
-AutoMapper: For mapping database models to data transfer objects (DTOs).
-Genaric Repository : is a design pattern commonly used in implementing the repository pattern. It allows developers to create reusable, type-safe, and scalable data access layers by using generic types.
-Specification Design Pattern : is a behavioral design pattern that allows you to encapsulate business rules or criteria in a reusable and combinable way. It is often used to create complex business rules or filter criteria in a clean and manageable way, avoiding code duplication.
-Cashing : Caching is a technique used to store frequently accessed data in a temporary storage area, or "cache," to improve application performance and reduce the load on databases or APIs
- Onion Architecture:is a software architecture pattern that emphasizes maintainability, scalability, and testability. It was introduced by Jeffrey Palermo and is designed to overcome the limitations of traditional layered architectures by focusing on the separation of concerns and dependency inversion principles.
- Unite Of Work :is a design pattern that maintains a list of objects affected by a business transaction and coordinates the writing out of changes and resolving concurrency problems. It acts as a bridge between the business logic layer and the data access layer, ensuring that all database operations in a single transaction either succeed or fail together.
- Service Manager : is a design pattern or architectural concept used to manage and coordinate services in an application. It acts as a central hub to access, instantiate, and maintain services, promoting a cleaner and more organized code structure. It’s commonly used in larger applications to reduce tight coupling between components and simplify service dependencies.
- Error Handling : the process of identifying, managing, and resolving errors or exceptions that occur during the execution of a program. Effective error handling ensures that your application remains robust, user-friendly, and secure, even when unexpected issues arise.
- JWT : s a powerful tool for stateless authentication and secure data transmission. By following best practices, it can significantly enhance the security and efficiency of your application.
+-Redis: For temporary basket storage.
+
+-Stripe API: For payment processing with intent-based transactions.
+
+-AutoMapper: For mapping database models to data transfer objects (DTOs).
+
+-Genaric Repository : is a design pattern commonly used in implementing the repository pattern. It allows developers to create reusable, type-safe, and scalable data access layers by using generic types.
+
+-Specification Design Pattern : is a behavioral design pattern that allows you to encapsulate business rules or criteria in a reusable and combinable way. It is often used to create complex business rules or filter criteria in a clean and manageable way, avoiding code duplication.
+
+-Cashing : Caching is a technique used to store frequently accessed data in a temporary storage area, or "cache," to improve application performance and reduce the load on databases or APIs
+
+-Onion Architecture:is a software architecture pattern that emphasizes maintainability, scalability, and testability. It was introduced by Jeffrey Palermo and is designed to overcome the limitations of traditional layered architectures by focusing on the separation of concerns and dependency inversion principles.
+ 
+ -Unite Of Work :is a design pattern that maintains a list of objects affected by a business transaction and coordinates the writing out of changes and resolving concurrency problems. It acts as a bridge between the business logic layer and the data access layer, ensuring that all database operations in a single transaction either succeed or fail together.
+ 
+-Service Manager : is a design pattern or architectural concept used to manage and coordinate services in an application. It acts as a central hub to access, instantiate, and maintain services, promoting a cleaner and more organized code structure. It’s commonly used in larger applications to reduce tight coupling between components and simplify service dependencies.
+ 
+ -Error Handling : the process of identifying, managing, and resolving errors or exceptions that occur during the execution of a program. Effective error handling ensures that your application remains robust, user-friendly, and secure, even when unexpected issues arise.
+ 
+- JWT : s a powerful tool for stateless authentication and secure data transmission. By following best practices, it can significantly enhance the security and efficiency of your application.
 
   ## Project Structure
 -Users: Stores user data, using Identity for authentication and authorization.
