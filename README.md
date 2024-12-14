@@ -12,7 +12,9 @@ This API provides endpoints for:
 ASP.NET Core: For building the API.
 
 Entity Framework Core: For ORM and database management.
+
 SQL Server: As the primary database to store persistent data.
+
 Redis: For temporary basket storage.
 Stripe API: For payment processing with intent-based transactions.
 AutoMapper: For mapping database models to data transfer objects (DTOs).
