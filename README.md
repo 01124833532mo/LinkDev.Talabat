@@ -58,7 +58,18 @@ This API provides endpoints for:
     -Temporary Basket: Uses Redis to temporarily store basket items before an order is placed.
     - Product Brands and Types: Provides endpoints to list product brands and types.
 3. Basket Management
-    Temporary Basket: Uses Redis to temporarily store basket items before an order is placed.
+    -Temporary Basket: Uses Redis to temporarily store basket items before an order is placed.
+  - Redis Integration: Redis cache is configured to persist basket data temporarily for improved performance and reduced database load.
+
+4. Order and Payment Processing
+    -Order Creation: Once a user confirms their basket, it’s converted into an order.
+   -Stripe Payment: Payment is handled using Stripe’s PaymentIntent API, allowing secure transactions.
+    -Order Confirmation: If payment is successful, the order is saved in the database and marked as completed.
+5. Stripe Integration
+   -Payment Intent: The payment flow is handled by creating a PaymentIntent in Stripe for each order, ensuring secure payment handling.
+    -Testing: Stripe test cards are used to verify the payment functionality in a development environment.
+
+
 
   
 
