@@ -52,12 +52,14 @@ This API provides endpoints for:
 
 ## Key Features
 1. User Management
-Registration and Authentication: Users can sign up and sign in using secure authentication.
-Authorization: Certain endpoints are protected, accessible only to authenticated users.
-2. Product Management
+-Registration and Authentication: Users can sign up and sign in using secure authentication.
+
+-Authorization: Certain endpoints are protected, accessible only to authenticated users.
+
+3. Product Management
     -Temporary Basket: Uses Redis to temporarily store basket items before an order is placed.
     - Product Brands and Types: Provides endpoints to list product brands and types.
-3. Basket Management
+4. Basket Management
     -Temporary Basket: Uses Redis to temporarily store basket items before an order is placed.
   - Redis Integration: Redis cache is configured to persist basket data temporarily for improved performance and reduced database load.
 
