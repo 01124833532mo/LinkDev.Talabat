@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using LinkDev.Talabat.Core.Application.Abstraction.Common.Contract.Infrastructure;
 using LinkDev.Talabat.Core.Application.Abstraction.Services;
-using LinkDev.Talabat.Core.Application.Abstraction.Services.Basket;
 using LinkDev.Talabat.Core.Application.Abstraction.Services.Orders;
 using LinkDev.Talabat.Core.Application.Abstraction.Services.Products;
 using LinkDev.Talabat.Core.Application.Mapping;
@@ -31,18 +31,22 @@ namespace LinkDev.Talabat.Core.Application
 
 			//services.AddScoped(typeof(Func<IBasketService>), typeof(Func<BasketService>));
 			services.AddScoped(typeof(IBasketService), typeof(BasketService));
-			services.AddScoped(typeof(Func<IBasketService>), (serverprovider) =>
-            {
-                //var mapper = serverprovider.GetRequiredService<IMapper>();
-                //var cinfiguration = serverprovider.GetRequiredService<IConfiguration>();
-                //var basketRepository = serverprovider.GetRequiredService<IBasketRepository>();
+
+            #region Get Requerd Services
+            //services.AddScoped(typeof(Func<IBasketService>), (serverprovider) =>
+            //         {
+            //             //var mapper = serverprovider.GetRequiredService<IMapper>();
+            //             //var cinfiguration = serverprovider.GetRequiredService<IConfiguration>();
+            //             //var basketRepository = serverprovider.GetRequiredService<IBasketRepository>();
 
 
-                //return () => new BasketService(basketRepository, mapper, cinfiguration);
+            //             //return () => new BasketService(basketRepository, mapper, cinfiguration);
 
-                return ()=> serverprovider.GetRequiredService<IBasketService>();
+            //             return ()=> serverprovider.GetRequiredService<IBasketService>();
 
-            });
+            //         }); 
+            #endregion
+
             services.AddAutoMapper(mapper => mapper.AddProfile<MappingProfile>());
 
 

@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
+using LinkDev.Talabat.Core.Application.Abstraction.Common.Contract.Infrastructure;
 using LinkDev.Talabat.Core.Application.Abstraction.Models.Orders;
-using LinkDev.Talabat.Core.Application.Abstraction.Services.Basket;
 using LinkDev.Talabat.Core.Application.Abstraction.Services.Orders;
 using LinkDev.Talabat.Core.Application.Exeptions;
+using LinkDev.Talabat.Core.Domain.Contracts.Infrastructure;
 using LinkDev.Talabat.Core.Domain.Contracts.Persistence;
 using LinkDev.Talabat.Core.Domain.Contracts.Specifications.Orders;
 using LinkDev.Talabat.Core.Domain.Entities.Orders;
@@ -15,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.Core.Application.Services.Orders
 {
-	internal class OrderService(IBasketService basketService, IUnitOfWork unitOfWork, IMapper mapper) : IOrderService
+    internal class OrderService(IBasketService basketService, IUnitOfWork unitOfWork, IMapper mapper,IPaymentService paymentService) : IOrderService
 	{
 		public async Task<OrderToReturnDto> CreateOrderAsync(string buyerEmail, OrderToCreateDto order)
 		{
@@ -66,6 +67,16 @@ namespace LinkDev.Talabat.Core.Application.Services.Orders
 			var deliverymethod = await unitOfWork.GetRepository<DeliveryMethod,int>().GetAsync(order.DeliveryMethodId);
 
 			//6 create order
+			var orderRepo = unitOfWork.GetRepository<Order, int>();
+			var orderspec = new OrderByPaymentIntentSpecifications(basket.PaymentIntentId!);
+
+			var existingOrder = await orderRepo.GetWithSpecAsync(orderspec);
+
+			if(existingOrder is not null)
+			{
+				orderRepo.Delete(existingOrder);
+				await paymentService.CreateOrUpdatePaymentIntent(basket.Id);
+			}
 
 			var OrderToCreate = new Order()
 			{
@@ -74,11 +85,12 @@ namespace LinkDev.Talabat.Core.Application.Services.Orders
 				Items = orderitems,
 				Subtotal= subtotal,
 				DeliveryMethod =deliverymethod,
+				PaymentIntentId = basket.PaymentIntentId!
 				//DeliveryMethodId = order.DeliveryMethodId,
 
 			};
 
-			await unitOfWork.GetRepository<Order,int>().AddAsync(OrderToCreate);
+			await orderRepo.AddAsync(OrderToCreate);
 
 			// 7 save at database 
 			var created = await unitOfWork.CompleteAsync() > 0;

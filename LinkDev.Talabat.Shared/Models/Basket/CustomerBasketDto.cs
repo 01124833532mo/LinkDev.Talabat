@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LinkDev.Talabat.Core.Application.Abstraction.Models.Basket
+namespace LinkDev.Talabat.Shared.Models.Basket
 {
     public   class CustomerBasketDto
     {
@@ -14,5 +14,14 @@ namespace LinkDev.Talabat.Core.Application.Abstraction.Models.Basket
 
         public IEnumerable<BasketItemDto> Items { get; set; } = new List<BasketItemDto>();
 
-    }
+		public string? PaymentIntentId { get; set; }
+
+		public string? ClientSecret { get; set; }
+
+		public int? DeliveryMethodId { get; set; }
+
+		public decimal ShippingPrice { get; set; }
+
+
+	}
 }

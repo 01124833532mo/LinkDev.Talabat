@@ -33,5 +33,7 @@ namespace LinkDev.Talabat.Core.Application.Abstraction.Models.Orders
 
 		public decimal Total { get; set; }
 
-	}
+        public string PaymentIntentId { get; set; }
+
+    }
 }

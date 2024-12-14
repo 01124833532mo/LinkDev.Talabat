@@ -34,18 +34,9 @@ namespace LinkDev.Talabat.Apis
                 options.SuppressModelStateInvalidFilter = false; // enable filter
                 options.InvalidModelStateResponseFactory = (actionContext) =>
                 {
-                    var errors = actionContext.ModelState.Where(p => p.Value!.Errors.Count() > 0)
-                                                         .Select(p => new ApiValidationErrorResponse.ValidationError()
-                                                         {
-                                                             Field = p.Key,
-                                                             Errors = p.Value!.Errors.Select(e => e.ErrorMessage)
-                                                         });
-                    return new BadRequestObjectResult(new ApiValidationErrorResponse()
-                    {
-                        Errors = errors
-
-                    });
-                };
+					var Errors = actionContext.ModelState.Where(p => p.Value!.Errors.Count > 0).SelectMany(p => p.Value!.Errors).Select(p => p.ErrorMessage);
+					return new BadRequestObjectResult(new ApiValidationErrorResponse() { Errors = Errors });
+				};
 
             }).AddApplicationPart(typeof(Controllers.AssemblyInformation).Assembly);
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -53,7 +44,16 @@ namespace LinkDev.Talabat.Apis
             WebApplicationBuilder.Services.AddSwaggerGen();
 
            WebApplicationBuilder.Services.AddHttpContextAccessor();
-            WebApplicationBuilder.Services.AddScoped(typeof(ILoggedInUserService), typeof(LoggedInUserService));
+            WebApplicationBuilder.Services.AddCors(corsOptions =>
+            {
+                corsOptions.AddPolicy("TalabatPolicy", policyBuilder =>
+                {
+                    policyBuilder.AllowAnyHeader().AllowAnyMethod().WithOrigins(WebApplicationBuilder.Configuration["Urls:FrontBaseUrl"]!);
+                });
+            });
+
+
+			WebApplicationBuilder.Services.AddScoped(typeof(ILoggedInUserService), typeof(LoggedInUserService));
 
             WebApplicationBuilder.Services.AddPersistenceServices(WebApplicationBuilder.Configuration);
             WebApplicationBuilder.Services.AddApplicationServices();
@@ -88,11 +88,12 @@ namespace LinkDev.Talabat.Apis
 
             app.UseStatusCodePagesWithReExecute("/Errors/{0}");
 
-            app.UseAuthentication();
-            app.UseAuthorization();
+          
 
 
             app.UseStaticFiles();
+
+            app.UseCors("TalabatPolicy");
 
             app.UseAuthentication();
             app.UseAuthorization();

@@ -55,6 +55,11 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Data.Interceptors
 				//	_loggedInUserService.UserId = "";
 				//}
 
+				if (string.IsNullOrEmpty(_loggedInUserService.UserId))
+				{
+					_loggedInUserService.UserId = "";
+				}
+
 				if (entry.State is EntityState.Added)
 				{
 					entry.Entity.CreatedBy = _loggedInUserService.UserId!;
