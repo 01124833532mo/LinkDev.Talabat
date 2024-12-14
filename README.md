@@ -1,4 +1,4 @@
-#E-commerce of Talabat API
+# E-commerce of Talabat API
 ## Project Overview
 This API provides endpoints for:
 -Managing users and user authentication
