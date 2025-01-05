@@ -22,6 +22,7 @@ This API provides endpoints for:
 -AutoMapper: For mapping database models to data transfer objects (DTOs).
 
 -Genaric Repository : is a design pattern commonly used in implementing the repository pattern. It allows developers to create reusable, type-safe, and scalable data access layers by using generic types.
+
 -Refresh Token :  is used to obtain a new access token when the current access token expires. Unlike access tokens, which are short-lived (for security reasons), refresh tokens are usually long-lived.
 
 -Specification Design Pattern : is a behavioral design pattern that allows you to encapsulate business rules or criteria in a reusable and combinable way. It is often used to create complex business rules or filter criteria in a clean and manageable way, avoiding code duplication.
