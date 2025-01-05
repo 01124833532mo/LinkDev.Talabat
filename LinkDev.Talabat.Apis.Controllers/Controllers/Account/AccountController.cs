@@ -4,12 +4,6 @@ using LinkDev.Talabat.Core.Application.Abstraction.Models.Common;
 using LinkDev.Talabat.Core.Application.Abstraction.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.Apis.Controllers.Controllers.Account
 {
@@ -32,39 +26,56 @@ namespace LinkDev.Talabat.Apis.Controllers.Controllers.Account
             return Ok(result);
         }
 
-		[Authorize]
-		[HttpGet]
-		public async Task<ActionResult<UserDto>> GetCurrentUser()
+        [Authorize]
+        [HttpGet]
+        public async Task<ActionResult<UserDto>> GetCurrentUser()
         {
-            
+
             var result = await serviceManager.AuthService.GetCurrentUser(User);
             return Ok(result);
         }
 
-		[Authorize]
-		[HttpGet("address")]
-		public async Task<ActionResult<AddressDto>> GetUserAddress()
-		{
+        [Authorize]
+        [HttpGet("address")]
+        public async Task<ActionResult<AddressDto>> GetUserAddress()
+        {
 
-			var result = await serviceManager.AuthService.GetUserAddress(User);
-			return Ok(result);
-		}
+            var result = await serviceManager.AuthService.GetUserAddress(User);
+            return Ok(result);
+        }
 
-		[Authorize]
-		[HttpPut("address")]
-		public async Task<ActionResult<AddressDto>> UpdateUserAddress(AddressDto address)
-		{
+        [Authorize]
+        [HttpPut("address")]
+        public async Task<ActionResult<AddressDto>> UpdateUserAddress(AddressDto address)
+        {
 
-			var result = await serviceManager.AuthService.UpdateUserAddress(User,address);
-			return Ok(result);
-		}
+            var result = await serviceManager.AuthService.UpdateUserAddress(User, address);
+            return Ok(result);
+        }
 
-		// for front end
+        // for front end
 
         [HttpGet("emailexists")]
-		public async Task<ActionResult<bool>> CheckEmailExist(string email)
-		{
-			return Ok(await serviceManager.AuthService.EmailExists(email!));
-		}
-	}
+        public async Task<ActionResult<bool>> CheckEmailExist(string email)
+        {
+            return Ok(await serviceManager.AuthService.EmailExists(email!));
+        }
+
+        [HttpPost("Get-Refresh-Token")]
+
+        public async Task<ActionResult<UserDto>> RefreshToken([FromBody] RefreshDto model)
+        {
+            var result = await serviceManager.AuthService.GetRefreshToken(model);
+            return Ok(result);
+        }
+
+        [HttpPost("Revoke-Refresh-Token")]
+        public async Task<ActionResult> RevokeRefreshToken([FromBody] RefreshDto model)
+        {
+            var result = await serviceManager.AuthService.RevokeRefreshTokenAsync(model);
+            return result is false ? BadRequest("Operation Not Successed") : Ok(result);
+
+        }
+
+    }
 }

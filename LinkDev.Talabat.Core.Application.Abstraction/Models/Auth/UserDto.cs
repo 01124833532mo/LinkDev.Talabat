@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LinkDev.Talabat.Core.Application.Abstraction.Models.Auth
+﻿namespace LinkDev.Talabat.Core.Application.Abstraction.Models.Auth
 {
     public class UserDto
     {
@@ -15,6 +9,11 @@ namespace LinkDev.Talabat.Core.Application.Abstraction.Models.Auth
         public required string Email { get; set; }
 
         public required string Token { get; set; }
+
+        public string RefreshToken { get; set; }
+
+        public DateTime RefreshTokenExpirationDate { get; set; }
+
 
     }
 }

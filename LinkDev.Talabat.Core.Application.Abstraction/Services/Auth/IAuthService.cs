@@ -1,11 +1,6 @@
 ﻿using LinkDev.Talabat.Core.Application.Abstraction.Models.Auth;
 using LinkDev.Talabat.Core.Application.Abstraction.Models.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.Core.Application.Abstraction.Services.Auth
 {
@@ -20,8 +15,14 @@ namespace LinkDev.Talabat.Core.Application.Abstraction.Services.Auth
 
         Task<AddressDto?> GetUserAddress(ClaimsPrincipal claimsPrincipal);
 
-		Task<AddressDto> UpdateUserAddress(ClaimsPrincipal claimsPrincipal,AddressDto addressDto);
+        Task<AddressDto> UpdateUserAddress(ClaimsPrincipal claimsPrincipal, AddressDto addressDto);
 
-        Task<bool> EmailExists(string email); 
-	}
+        Task<bool> EmailExists(string email);
+
+
+        Task<UserDto> GetRefreshToken(RefreshDto refreshDto, CancellationToken cancellationToken = default);
+
+        Task<bool> RevokeRefreshTokenAsync(RefreshDto refreshDto, CancellationToken cancellationToken = default);
+
+    }
 }

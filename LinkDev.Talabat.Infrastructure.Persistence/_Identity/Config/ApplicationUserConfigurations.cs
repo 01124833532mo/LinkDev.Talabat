@@ -2,11 +2,6 @@
 using LinkDev.Talabat.Infrastructure.Persistence._Common;
 using LinkDev.Talabat.Infrastructure.Persistence.Identity;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.Infrastructure.Persistence._Identity.Config
 {
@@ -22,10 +17,12 @@ namespace LinkDev.Talabat.Infrastructure.Persistence._Identity.Config
                 .IsRequired(true);
 
 
-            builder.HasOne(u=>u.Address)
-                .WithOne(a=>a.User)
-                .HasForeignKey<Address>(a=>a.UserId)
+            builder.HasOne(u => u.Address)
+                .WithOne(a => a.User)
+                .HasForeignKey<Address>(a => a.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            //builder.OwnsMany(p=>p.RefreshTokens).ToTable("RefreshToken").WithOwner().HasForeignKey(u=>u.i)
         }
     }
 }
