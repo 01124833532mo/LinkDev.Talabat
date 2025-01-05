@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.Apis.Controllers.Controllers.Products
 {
+    //[Authorize(Roles = "Customer")]
     public class ProductsController(IServiceManager serviceManager) : BaseApiController
     {
         [CachedAttribute(600)]
