@@ -21,6 +21,7 @@
     <ProjectReference Include="..\LinkDev.Talabat.Core.Application\LinkDev.Talabat.Core.Application.csproj" />
     <ProjectReference Include="..\LinkDev.Talabat.Infrastructure.Persistence\LinkDev.Talabat.Infrastructure.Persistence.csproj" />
     <ProjectReference Include="..\LinkDev.Talabat.Infrastructure\LinkDev.Talabat.Infrastructure.csproj" />
+    <ProjectReference Include="..\LinkDev.Talabat.Shared\LinkDev.Talabat.Shared.csproj" />
   </ItemGroup>
 
 </Project>

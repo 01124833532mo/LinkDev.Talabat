@@ -1,11 +1,14 @@
 ﻿using AutoMapper;
+using LinkDev.Talabat.Core.Application.Abstraction.Models._Common;
 using LinkDev.Talabat.Core.Application.Abstraction.Models.Auth;
 using LinkDev.Talabat.Core.Application.Abstraction.Models.Common;
 using LinkDev.Talabat.Core.Application.Abstraction.Services.Auth;
+using LinkDev.Talabat.Core.Application.Abstraction.Services.Emails;
 using LinkDev.Talabat.Core.Application.Exeptions;
 using LinkDev.Talabat.Core.Application.Extenstions;
 using LinkDev.Talabat.Core.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -19,7 +22,8 @@ namespace LinkDev.Talabat.Core.Application.Services.Auth
         IMapper mapper,
         IOptions<JwtSettings> jwtSettings,
         UserManager<ApplicationUser> _userManager,
-        SignInManager<ApplicationUser> _signInManager) : IAuthService
+        SignInManager<ApplicationUser> _signInManager,
+        IEmailSettings emailSettings) : IAuthService
     {
         private readonly JwtSettings _jwtSettings = jwtSettings.Value;
         private const int _JWTRefreshTokenExpire = 14;
@@ -321,8 +325,113 @@ namespace LinkDev.Talabat.Core.Application.Services.Auth
             }
         }
 
+        public async Task<SuccessDto> ForgetPasswordByEmailasync(ForgetPasswordByEmailDto emailDto)
+        {
+            var user = await _userManager.Users.Where(u => u.Email == emailDto.Email).FirstOrDefaultAsync();
 
+            if (user is null)
+                throw new BadRequestExeption("Invalid Email");
 
+            var ResetCode = RandomNumberGenerator.GetInt32(100_000, 999_999);
 
+            var ResetCodeExpire = DateTime.UtcNow.AddMinutes(15);
+
+            user.EmailConfirmResetCode = ResetCode;
+            user.EmailConfirmResetCodeExpiry = ResetCodeExpire;
+
+            var result = await _userManager.UpdateAsync(user);
+
+            if (!result.Succeeded)
+                throw new BadRequestExeption("Something Went Wrong While Sending Reset Code");
+
+            var Email = new Email()
+            {
+                To = emailDto.Email,
+                Subject = "Reset Code For CarCare Account",
+                Body = $"We Have Recived Your Request For Reset Your Account Password, \nYour Reset Code Is ==> [ {ResetCode} ] <== \nNote: This Code Will Be Expired After 15 Minutes!",
+            };
+
+            await emailSettings.SendEmail(Email);
+
+            var SuccessObj = new SuccessDto()
+            {
+                Status = "Success",
+                Message = "We Have Sent You The Reset Code"
+            };
+
+            return SuccessObj;
+        }
+
+        public async Task<SuccessDto> VerifyCodeByEmailAsync(ResetCodeConfirmationByEmailDto resetCodeDto)
+        {
+            var user = await _userManager.Users.Where(u => u.Email == resetCodeDto.Email).FirstOrDefaultAsync();
+
+            if (user is null)
+                throw new BadRequestExeption("Invalid Email");
+
+            if (user.EmailConfirmResetCode != resetCodeDto.ResetCode)
+                throw new BadRequestExeption("The Provided Code Is Invalid");
+
+            if (user.EmailConfirmResetCodeExpiry < DateTime.UtcNow)
+                throw new BadRequestExeption("The Provided Code Has Been Expired");
+
+            var SuccessObj = new SuccessDto()
+            {
+                Status = "Success",
+                Message = "Reset Code Is Verified, Please Proceed To Change Your Password"
+            };
+
+            return SuccessObj;
+        }
+
+        public async Task<UserDto> ResetPasswordByEmailAsync(ResetPasswordByEmailDto resetCodeDto)
+        {
+            var user = await _userManager.Users.Where(u => u.Email == resetCodeDto.Email).FirstOrDefaultAsync();
+
+            if (user is null)
+                throw new BadRequestExeption("Invalid Email");
+
+            var RemovePass = await _userManager.RemovePasswordAsync(user);
+
+            if (!RemovePass.Succeeded)
+                throw new BadRequestExeption("Something Went Wrong While Reseting Your Password");
+
+            var newPass = await _userManager.AddPasswordAsync(user, resetCodeDto.NewPassword);
+
+            if (!newPass.Succeeded)
+                throw new BadRequestExeption("Something Went Wrong While Reseting Your Password");
+
+            var mappedUser = new UserDto
+            {
+                DisplayName = user.DisplayName!,
+                Id = user.Id,
+                Email = user.Email!,
+                Token = await GenerateTokenAsync(user),
+
+            };
+
+            if (user!.RefreshTokens.Any(t => t.IsActice))
+            {
+                var acticetoken = user.RefreshTokens.FirstOrDefault(x => x.IsActice);
+                mappedUser.RefreshToken = acticetoken!.Token;
+                mappedUser.RefreshTokenExpirationDate = acticetoken.ExpireOn;
+            }
+            else
+            {
+
+                var refreshtoken = GenerateRefreshToken();
+                mappedUser.RefreshToken = refreshtoken.Token;
+                mappedUser.RefreshTokenExpirationDate = refreshtoken.ExpireOn;
+
+                user.RefreshTokens.Add(new RefreshToken()
+                {
+                    Token = refreshtoken.Token,
+                    ExpireOn = refreshtoken.ExpireOn,
+                });
+                await _userManager.UpdateAsync(user);
+            }
+
+            return mappedUser;
+        }
     }
 }

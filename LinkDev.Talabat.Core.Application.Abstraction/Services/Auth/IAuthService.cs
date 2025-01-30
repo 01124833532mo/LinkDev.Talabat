@@ -24,5 +24,11 @@ namespace LinkDev.Talabat.Core.Application.Abstraction.Services.Auth
 
         Task<bool> RevokeRefreshTokenAsync(RefreshDto refreshDto, CancellationToken cancellationToken = default);
 
+        Task<SuccessDto> ForgetPasswordByEmailasync(ForgetPasswordByEmailDto emailDto);
+        Task<SuccessDto> VerifyCodeByEmailAsync(ResetCodeConfirmationByEmailDto resetCodeDto);
+        Task<UserDto> ResetPasswordByEmailAsync(ResetPasswordByEmailDto resetCodeDto);
+
+
+
     }
 }
