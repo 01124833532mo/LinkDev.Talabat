@@ -18,6 +18,7 @@ This API provides endpoints for:
 -Redis: For temporary basket storage.
 
 -Stripe API: For payment processing with intent-based transactions.
+
 -Send Sms By Mail : Using MailKit
 
 -AutoMapper: For mapping database models to data transfer objects (DTOs).
