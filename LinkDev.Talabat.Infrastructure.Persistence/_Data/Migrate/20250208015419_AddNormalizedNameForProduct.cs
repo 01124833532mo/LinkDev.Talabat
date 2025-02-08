@@ -2,10 +2,10 @@
 
 #nullable disable
 
-namespace LinkDev.Talabat.Infrastructure.Persistence.Data.Migrations
+namespace LinkDev.Talabat.Infrastructure.Persistence._Data.Migrate
 {
     /// <inheritdoc />
-    public partial class NormalizedNameColoumnMigration : Migration
+    public partial class AddNormalizedNameForProduct : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

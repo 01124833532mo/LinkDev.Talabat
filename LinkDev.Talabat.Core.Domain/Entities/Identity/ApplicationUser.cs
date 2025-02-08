@@ -10,5 +10,8 @@ namespace LinkDev.Talabat.Core.Domain.Entities.Identity
 
         public ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
 
+        public int? EmailConfirmResetCode { get; set; }
+        public DateTime? EmailConfirmResetCodeExpiry { get; set; }
+
     }
 }

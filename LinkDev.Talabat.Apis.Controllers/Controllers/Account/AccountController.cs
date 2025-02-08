@@ -77,5 +77,25 @@ namespace LinkDev.Talabat.Apis.Controllers.Controllers.Account
 
         }
 
+        [HttpPost("ForgetPasswordEmail")]
+        public async Task<ActionResult> ForgetPasswordEmail(ForgetPasswordByEmailDto forgetPasswordDto)
+        {
+            var result = await serviceManager.AuthService.ForgetPasswordByEmailasync(forgetPasswordDto);
+            return Ok(result);
+        }
+        [HttpPost("VerfiyCodeEmail")]
+        public async Task<ActionResult> VerfiyCodeEmail(ResetCodeConfirmationByEmailDto resetCode)
+        {
+            var result = await serviceManager.AuthService.VerifyCodeByEmailAsync(resetCode);
+            return Ok(result);
+        }
+
+
+        [HttpPut("ResetPasswordEmail")]
+        public async Task<ActionResult> ResetPasswordEmail(ResetPasswordByEmailDto resetPassword)
+        {
+            var result = await serviceManager.AuthService.ResetPasswordByEmailAsync(resetPassword);
+            return Ok(result);
+        }
     }
 }
