@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="_Data\Migrate\" />
     <Folder Include="_Identity\Interceptors\" />
     <Folder Include="_Identity\Migrations\" />
     <Folder Include="_Identity\Seeds\" />

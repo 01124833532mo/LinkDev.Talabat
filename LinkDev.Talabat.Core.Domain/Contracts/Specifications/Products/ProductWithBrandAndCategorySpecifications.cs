@@ -1,22 +1,16 @@
 ﻿using LinkDev.Talabat.Core.Domain.Entities.Products;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.Core.Domain.Contracts.Specifications.Products
 {
     public class ProductWithBrandAndCategorySpecifications : BaseSpecifications<Product, int>
     {
 
-        public ProductWithBrandAndCategorySpecifications(string? sort, int? brandId, int? categoryId,int pageSize,int pageIndex, string? search)
+        public ProductWithBrandAndCategorySpecifications(string? sort, int? brandId, int? categoryId, int pageSize, int pageIndex, string? search)
             : base(
 
 
-                  p => 
-                  (string.IsNullOrEmpty(search)|| p.NormalizedName.Contains(search) )
+                  p =>
+                  (string.IsNullOrEmpty(search) || p.NormalizedName.Contains(search))
                   &&
                   (!brandId.HasValue || p.BrandId == brandId.Value)
                             &&
@@ -50,7 +44,7 @@ namespace LinkDev.Talabat.Core.Domain.Contracts.Specifications.Products
             //page size = 5
             //page index = 3
 
-            ApplyPagination((pageIndex-1)*pageSize ,pageSize);
+            ApplyPagination((pageIndex - 1) * pageSize, pageSize);
 
 
         }

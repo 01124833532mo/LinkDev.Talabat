@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace LinkDev.Talabat.Infrastructure.Persistence.Data.Migrations
+namespace LinkDev.Talabat.Infrastructure.Persistence._Data.Migrate
 {
     [DbContext(typeof(StoreDbContext))]
-    [Migration("20241122143048_OrderModouleMigrations")]
-    partial class OrderModouleMigrations
+    [Migration("20250208015419_AddNormalizedNameForProduct")]
+    partial class AddNormalizedNameForProduct
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
