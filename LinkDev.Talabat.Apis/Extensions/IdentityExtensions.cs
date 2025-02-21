@@ -13,39 +13,40 @@ namespace LinkDev.Talabat.Apis.Extensions
     public static class IdentityExtensions
     {
 
-        public static IServiceCollection AddIdentityServices(this IServiceCollection services,IConfiguration configuration) {
+        public static IServiceCollection AddIdentityServices(this IServiceCollection services, IConfiguration configuration)
+        {
             services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
 
 
 
-           services.AddIdentity<ApplicationUser, IdentityRole>(identityoptions =>
-            {
+            services.AddIdentity<ApplicationUser, IdentityRole>(identityoptions =>
+             {
 
-                identityoptions.User.RequireUniqueEmail = true;
+                 identityoptions.User.RequireUniqueEmail = true;
 
-                identityoptions.SignIn.RequireConfirmedPhoneNumber = true;
-                identityoptions.SignIn.RequireConfirmedEmail = true;
-                //identityoptions.SignIn.RequireConfirmedAccount = true;
+                 identityoptions.SignIn.RequireConfirmedPhoneNumber = false;
+                 identityoptions.SignIn.RequireConfirmedEmail = false;
+                 //identityoptions.SignIn.RequireConfirmedAccount = true;
 
-                //identityoptions.Password.RequireNonAlphanumeric = true;
-                //identityoptions.Password.RequiredUniqueChars = 2;
-                //identityoptions.Password.RequiredLength = 6;
-                //identityoptions.Password.RequireDigit = true;
-                //identityoptions.Password.RequireLowercase = true;
-                //identityoptions.Password.RequireUppercase = true;
+                 //identityoptions.Password.RequireNonAlphanumeric = true;
+                 //identityoptions.Password.RequiredUniqueChars = 2;
+                 //identityoptions.Password.RequiredLength = 6;
+                 //identityoptions.Password.RequireDigit = true;
+                 //identityoptions.Password.RequireLowercase = true;
+                 //identityoptions.Password.RequireUppercase = true;
 
-                identityoptions.Lockout.AllowedForNewUsers = true;
-                identityoptions.Lockout.MaxFailedAccessAttempts = 10;
-                identityoptions.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
+                 identityoptions.Lockout.AllowedForNewUsers = true;
+                 identityoptions.Lockout.MaxFailedAccessAttempts = 10;
+                 identityoptions.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
 
 
-            }).AddEntityFrameworkStores<StoreIdentityDbContext>();
+             }).AddEntityFrameworkStores<StoreIdentityDbContext>();
 
             services.AddScoped(typeof(IAuthService), typeof(AuthService));
 
             services.AddScoped(typeof(Func<IAuthService>), (serviceprovider) =>
             {
-               return ()=> serviceprovider.GetService<IAuthService>();
+                return () => serviceprovider.GetService<IAuthService>();
             });
 
             services.AddAuthentication((authenticationoptions) =>
@@ -60,13 +61,13 @@ namespace LinkDev.Talabat.Apis.Extensions
                       ValidateAudience = true,
                       ValidateIssuer = true,
                       ValidateIssuerSigningKey = true,
-                      ValidateLifetime =true,
+                      ValidateLifetime = true,
 
 
-                      ClockSkew=TimeSpan.FromMinutes(0),
+                      ClockSkew = TimeSpan.FromMinutes(0),
                       ValidIssuer = configuration["JwtSettings:Issuer"],
                       ValidAudience = configuration["JwtSettings:Audience"],
-                      IssuerSigningKey= new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtSettings:Key"]!)),
+                      IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtSettings:Key"]!)),
 
                   };
               });

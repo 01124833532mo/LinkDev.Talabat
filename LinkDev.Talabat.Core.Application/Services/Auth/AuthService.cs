@@ -67,8 +67,8 @@ namespace LinkDev.Talabat.Core.Application.Services.Auth
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, lockoutOnFailure: true);
 
-            if (result.IsNotAllowed)
-                throw new UnAuthorizedExeption("Account Not Confermed Yet");
+            //if (result.IsNotAllowed)
+            //    throw new UnAuthorizedExeption("Account Not Confermed Yet");
 
             if (result.IsLockedOut) new UnAuthorizedExeption("Account is loucked ");
 
@@ -114,6 +114,9 @@ namespace LinkDev.Talabat.Core.Application.Services.Auth
         {
             //if (EmailExists(model.Email).Result)
             //    throw new BadRequestExeption("This Email Is Already in User");
+            var email = _userManager.Users.Where(e => e.Email == model.Email).FirstOrDefault();
+            if (email is not null)
+                throw new BadRequestExeption("Email Already Exsist");
 
             var user = new ApplicationUser()
             {
