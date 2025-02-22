@@ -19,7 +19,9 @@ This API provides endpoints for:
 
 -Stripe API: For payment processing with intent-based transactions.
 
--Send Sms By Mail : Using MailKit
+-Send Mail : Using MailKit
+
+-HangFire : Useing HangFire Library To Send Mail To All Users At The First Day In Every Mounth Automaticlly
 
 -AutoMapper: For mapping database models to data transfer objects (DTOs).
 
