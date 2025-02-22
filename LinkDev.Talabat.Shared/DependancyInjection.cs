@@ -1,4 +1,5 @@
-﻿using LinkDev.Talabat.Shared.Settings;
+﻿using Hangfire;
+using LinkDev.Talabat.Shared.Settings;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,7 +11,8 @@ namespace LinkDev.Talabat.Shared
         {
             services.Configure<mailSettings>(configuration.GetSection("MailSettings"));
 
-
+            services.AddHangfire(h => h.UseSqlServerStorage(configuration.GetConnectionString("HangFireConnection")));
+            services.AddHangfireServer();
 
 
             return services;

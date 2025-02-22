@@ -49,6 +49,8 @@ namespace LinkDev.Talabat.Core.Application
                 return () => serviceprovider.GetRequiredService<IOrderService>();
             });
 
+            services.AddScoped(typeof(IEmailNotificationService), typeof(EmailNotificationService));
+
             return services;
         }
 

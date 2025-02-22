@@ -29,6 +29,5 @@ namespace LinkDev.Talabat.Core.Application.Abstraction.Services.Auth
         Task<UserDto> ResetPasswordByEmailAsync(ResetPasswordByEmailDto resetCodeDto);
 
 
-
     }
 }
