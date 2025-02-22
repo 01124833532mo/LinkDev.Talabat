@@ -436,5 +436,33 @@ namespace LinkDev.Talabat.Core.Application.Services.Auth
 
             return mappedUser;
         }
+
+        public async Task SendMonthlyEmails(IEmailSettings emailSettings)
+        {
+            var emails = await _userManager.Users.Select(e => e.Email).ToListAsync();
+
+            foreach (var email in emails)
+            {
+                var emailDto = new Email
+                {
+                    To = email ?? string.Empty,
+                    Subject = "Monthly Newsletter",
+                    Body = "Here is your monthly update!"
+                };
+
+                await emailSettings.SendEmail(emailDto);
+            }
+        }
+        //private List<UserDto> GetUsersToEmail()
+        //{
+        //    var users = _userManager.Users
+        //    // Replace this with your logic to fetch users from the database
+        //    return new List<User>
+        //{
+        //    new User { Email = "user1@example.com" },
+        //    new User { Email = "user2@example.com" }
+        //};
+
+
     }
 }

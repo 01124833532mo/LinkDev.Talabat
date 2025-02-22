@@ -1,10 +1,12 @@
 
+using Hangfire;
 using LinkDev.Talabat.Apis.Controllers.Errors;
 using LinkDev.Talabat.Apis.Extensions;
 using LinkDev.Talabat.Apis.Middlewares;
 using LinkDev.Talabat.Apis.Services;
 using LinkDev.Talabat.Core.Application;
 using LinkDev.Talabat.Core.Application.Abstraction;
+using LinkDev.Talabat.Core.Application.Abstraction.Services.Emails;
 using LinkDev.Talabat.Infrastructure;
 using LinkDev.Talabat.Infrastructure.Persistence;
 using LinkDev.Talabat.Shared;
@@ -68,6 +70,18 @@ namespace LinkDev.Talabat.Apis
             await app.InitializeDbAsync();
 
             #endregion
+
+
+            app.UseHangfireDashboard();
+            RecurringJob.AddOrUpdate<IEmailNotificationService>(
+           "monthly-email-job", // 
+             service => service.SendMonthlyEmails(),
+            Cron.Monthly(1),
+                new RecurringJobOptions
+                {
+                    TimeZone = TimeZoneInfo.Utc
+                });
+
 
 
 
